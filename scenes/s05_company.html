@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S05 创业开源</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0B0E14}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#05070C"/>
+      <stop offset="0.55" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#10141C"/>
+    </linearGradient>
+    <!-- 楼宇渐变（上暗下亮城市光） -->
+    <linearGradient id="bldgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141a26"/>
+      <stop offset="1" stop-color="#1d2534"/>
+    </linearGradient>
+    <linearGradient id="megaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f141e"/>
+      <stop offset="1" stop-color="#1a2230"/>
+    </linearGradient>
+    <radialGradient id="priceGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+    <filter id="bigGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="16" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#sky)"/>
+
+    <!-- 星空（JS 生成） -->
+    <g id="stars"></g>
+
+    <!-- 城市天际线（JS 生成楼宇） -->
+    <g id="city"></g>
+
+    <!-- 三大巨头壁垒（三栋超高楼） -->
+    <g id="megas"></g>
+
+    <!-- 网络连线（JS 生成，行业标准） -->
+    <g id="network"></g>
+
+    <!-- 价格数字 -->
+    <g id="priceGroup">
+      <circle cx="960" cy="360" r="240" fill="url(#priceGlow)" filter="url(#softGlow)" opacity="0.8"/>
+      <text id="priceSym" x="960" y="360" text-anchor="middle" font-size="60" fill="#8B9ED8" font-family="Georgia,serif" filter="url(#glow)">£</text>
+      <text id="priceNum" x="960" y="430" text-anchor="middle" font-size="128" font-weight="700" fill="#4FC1E0" font-family="'Segoe UI',Arial,sans-serif" filter="url(#bigGlow)">50,000</text>
+      <text id="priceTag" x="960" y="470" text-anchor="middle" font-size="26" fill="#8B9ED8" font-family="'Microsoft YaHei',sans-serif" opacity="0.85">仿生人 · 单价</text>
+    </g>
+
+    <!-- 财报会议（青年赞比 + 讲台） -->
+    <g id="meeting" opacity="0">
+      <rect x="0" y="760" width="1920" height="320" fill="#0d1119"/>
+      <rect x="0" y="760" width="1920" height="3" fill="#4FC1E0" opacity="0.35"/>
+      <!-- 讲台 -->
+      <rect x="820" y="640" width="280" height="120" rx="6" fill="#1a2230"/>
+      <rect x="820" y="640" width="280" height="8" fill="#4FC1E0" opacity="0.5"/>
+      <rect x="860" y="648" width="200" height="6" rx="3" fill="#2a3342"/>
+      <!-- 大屏 Logo 背景光 -->
+      <rect x="660" y="300" width="600" height="240" rx="10" fill="#05070c" stroke="#242E3E" stroke-width="2"/>
+      <text x="960" y="420" text-anchor="middle" font-size="44" fill="#4FC1E0" font-family="Georgia,serif" filter="url(#glow)">ZANBI TECH</text>
+      <text x="960" y="460" text-anchor="middle" font-size="20" fill="#8B9ED8" font-family="'Microsoft YaHei',sans-serif">记忆存储协议 · 开源</text>
+      <!-- 青年赞比（插画级，背影，站在讲台后） -->
+      <g id="youngZhanbi" transform="translate(960, 758)"></g>
+    </g>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">二十二岁，赞比注册了赞比科技公司。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 42.8;
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // ---- 星空 ----
+  (function stars(){
+    var g = document.getElementById('stars');
+    for (var i = 0; i < 140; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', Math.random() * 1920);
+      c.setAttribute('cy', Math.random() * 900);
+      c.setAttribute('r', (Math.random() * 1.6).toFixed(1));
+      c.setAttribute('fill', '#8B9ED8');
+      c.setAttribute('opacity', (Math.random() * 0.5 + 0.1).toFixed(2));
+      g.appendChild(c);
+    }
+  })();
+
+  // ---- 城市楼宇 ----
+  var buildings = [];
+  (function city(){
+    var g = document.getElementById('city');
+    var x = 20;
+    while (x < 1900) {
+      var w = 60 + Math.random() * 80;
+      var h = 180 + Math.random() * 420;
+      var gb = document.createElementNS(NS, 'g');
+      var rect = document.createElementNS(NS, 'rect');
+      rect.setAttribute('x', x);
+      rect.setAttribute('y', 760 - h);
+      rect.setAttribute('width', w);
+      rect.setAttribute('height', h);
+      rect.setAttribute('fill', 'url(#bldgGrad)');
+      rect.setAttribute('stroke', '#242E3E');
+      rect.setAttribute('stroke-width', '1');
+      gb.appendChild(rect);
+      // 窗格
+      var cols = Math.floor(w / 18);
+      var rows = Math.floor(h / 26);
+      for (var c = 0; c < cols; c++) {
+        for (var r = 0; r < rows; r++) {
+          if (Math.random() < 0.5) continue;
+          var win = document.createElementNS(NS, 'rect');
+          win.setAttribute('x', x + 5 + c * 18);
+          win.setAttribute('y', 760 - h + 6 + r * 26);
+          win.setAttribute('width', 8);
+          win.setAttribute('height', 12);
+          win.setAttribute('fill', Math.random() < 0.6 ? '#4FC1E0' : '#8B9ED8');
+          win.setAttribute('opacity', (Math.random() * 0.5 + 0.3).toFixed(2));
+          gb.appendChild(win);
+        }
+      }
+      g.appendChild(gb);
+      buildings.push({g: gb, x: x, w: w, h: h, baseY: 760});
+      x += w + 8;
+    }
+  })();
+
+  // ---- 三大巨头壁垒（三栋超高楼） ----
+  var megas = [];
+  (function mega(){
+    var g = document.getElementById('megas');
+    var specs = [
+      {x: 360, w: 200, h: 620},
+      {x: 860, w: 220, h: 700},
+      {x: 1380, w: 200, h: 620}
+    ];
+    for (var i = 0; i < 3; i++) {
+      var s = specs[i];
+      var gb = document.createElementNS(NS, 'g');
+      var rect = document.createElementNS(NS, 'rect');
+      rect.setAttribute('x', s.x);
+      rect.setAttribute('y', 760 - s.h);
+      rect.setAttribute('width', s.w);
+      rect.setAttribute('height', s.h);
+      rect.setAttribute('fill', 'url(#megaGrad)');
+      rect.setAttribute('stroke', '#3a4350');
+      rect.setAttribute('stroke-width', '2');
+      gb.appendChild(rect);
+      // 顶部冠名光
+      var cap = document.createElementNS(NS, 'rect');
+      cap.setAttribute('x', s.x + 10);
+      cap.setAttribute('y', 760 - s.h + 8);
+      cap.setAttribute('width', s.w - 20);
+      cap.setAttribute('height', 6);
+      cap.setAttribute('fill', '#FF8A5C');
+      cap.setAttribute('opacity', '0.8');
+      gb.appendChild(cap);
+      // 窗格（整齐密布，象征垄断）
+      for (var r = 0; r < 22; r++) {
+        for (var c = 0; c < 8; c++) {
+          var win = document.createElementNS(NS, 'rect');
+          win.setAttribute('x', s.x + 12 + c * (s.w - 24) / 8);
+          win.setAttribute('y', 760 - s.h + 22 + r * 28);
+          win.setAttribute('width', (s.w - 30) / 8);
+          win.setAttribute('height', 14);
+          win.setAttribute('fill', Math.random() < 0.7 ? '#8B9ED8' : '#4FC1E0');
+          win.setAttribute('opacity', '0.35');
+          gb.appendChild(win);
+        }
+      }
+      g.appendChild(gb);
+      megas.push({g: gb, h: s.h});
+    }
+  })();
+
+  // ---- 网络连线（行业标准） ----
+  var netLines = [];
+  (function network(){
+    var g = document.getElementById('network');
+    var pts = [];
+    for (var i = 0; i < 22; i++) {
+      pts.push({x: 60 + Math.random() * 1800, y: 200 + Math.random() * 500});
+    }
+    for (var i = 0; i < pts.length; i++) {
+      for (var j = i + 1; j < pts.length; j++) {
+        if (Math.random() > 0.18) continue;
+        var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d > 420) continue;
+        var ln = document.createElementNS(NS, 'line');
+        ln.setAttribute('x1', pts[i].x); ln.setAttribute('y1', pts[i].y);
+        ln.setAttribute('x2', pts[j].x); ln.setAttribute('y2', pts[j].y);
+        ln.setAttribute('stroke', '#4FC1E0');
+        ln.setAttribute('stroke-width', '1.2');
+        ln.setAttribute('opacity', '0');
+        g.appendChild(ln);
+        netLines.push({el: ln, d: d});
+        // 光点
+        var dot = document.createElementNS(NS, 'circle');
+        dot.setAttribute('r', '2.5');
+        dot.setAttribute('fill', '#4FC1E0');
+        dot.setAttribute('filter', 'url(#glow)');
+        dot.setAttribute('opacity', '0');
+        g.appendChild(dot);
+        netLines.push({el: dot, d: d, x1: pts[i].x, y1: pts[i].y, x2: pts[j].x, y2: pts[j].y, isDot: true});
+      }
+    }
+  })();
+
+  // ---- 青年赞比（插画级，背影，站在讲台后） ----
+  var young = CH.adult({skin:'#D9B08A', hair:'#2B211A', hairStyle:'short', suit:'#242E3E', shirt:'#e8eef4', tie:'#4FC1E0', pants:'#1a1d24', expr:'neutral', browKind:'normal'});
+  young.setAttribute('transform', 'scale(1.05)');
+  document.getElementById('youngZhanbi').appendChild(young);
+
+  var SUBTITLES = [
+    {t: 1.0, text: "二十二岁，赞比注册了赞比科技公司。"},
+    {t: 4.5, text: "那时候，"},
+    {t: 5.2, text: "仿生人市场被三大巨头垄断，"},
+    {t: 8.0, text: "壁垒高得像一堵墙。"},
+    {t: 9.8, text: "赞比做了一件所有人都不理解的事，"},
+    {t: 13.2, text: "他开源了仿生人的记忆存储协议。"},
+    {t: 16.3, text: "价格从五万英镑一台，直接砸到三千。"},
+    {t: 19.8, text: "三大巨头用了六个月才反应过来，"},
+    {t: 23.0, text: "但已经晚了。"},
+    {t: 24.2, text: "赞比科技的接口，成了事实上的行业标准。"},
+    {t: 28.1, text: "那一年他二十六岁，"},
+    {t: 29.9, text: "在财报会议上说出那句后来被刻在公司总部大门上的话。"},
+    {t: 35.5, text: "先让人人都用得起，再让人人都离不开。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 1) 楼宇生长 0-8s
+    for (var i = 0; i < buildings.length; i++) {
+      var b = buildings[i];
+      var grow = clamp(t / (4 + (i % 5) * 0.7), 0, 1);
+      var hh = b.h * easeInOut(grow);
+      var rect = b.g.querySelector('rect');
+      rect.setAttribute('y', b.baseY - hh);
+      rect.setAttribute('height', hh);
+      var wins = b.g.querySelectorAll('rect');
+      for (var w = 1; w < wins.length; w++) {
+        if (parseFloat(wins[w].getAttribute('y')) > b.baseY - hh) {
+          wins[w].setAttribute('opacity', '0');
+        } else {
+          wins[w].setAttribute('opacity', wins[w].getAttribute('data-op') || (Math.random() < 0.6 ? '0.55' : '0.75'));
+          if (!wins[w].getAttribute('data-op')) wins[w].setAttribute('data-op', wins[w].getAttribute('opacity'));
+        }
+      }
+    }
+
+    // 2) 巨头壁垒：8-19s 高耸，19s 后下沉（被打破）
+    for (var i = 0; i < megas.length; i++) {
+      var m = megas[i];
+      var rise = clamp((t - 4) / 6, 0, 1);
+      var fall = clamp((t - 19) / 5, 0, 1);
+      var hh = m.h * (rise * (1 - fall) + 0.25 * fall);
+      var rect = m.g.querySelector('rect');
+      rect.setAttribute('y', 760 - hh);
+      rect.setAttribute('height', hh);
+    }
+
+    // 3) 价格数字：6-16s 显示 £50,000，16.3-19s 滚动到 £3,000
+    var priceNum = document.getElementById('priceNum');
+    var priceShow = clamp((t - 6) / 1, 0, 1);
+    var priceGroup = document.getElementById('priceGroup');
+    priceGroup.setAttribute('opacity', priceShow);
+    var v;
+    if (t < 16.3) {
+      v = 50000;
+    } else if (t < 19) {
+      v = Math.round(lerp(50000, 3000, easeInOut((t - 16.3) / 2.7)));
+    } else {
+      v = 3000;
+    }
+    var s = v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (s !== priceNum.textContent) priceNum.textContent = s;
+    if (t > 19) {
+      priceNum.setAttribute('fill', '#4FC1E0');
+      priceTag.textContent = '仿生人 · 单价 · 开源后';
+    } else {
+      priceTag.textContent = '仿生人 · 单价';
+    }
+
+    // 4) 网络连线亮起 19-28s
+    for (var i = 0; i < netLines.length; i++) {
+      var n = netLines[i];
+      var on = clamp((t - 19) / 9, 0, 1);
+      if (n.isDot) {
+        var ph = ((t * 0.4) + (i * 0.07)) % 1;
+        n.el.setAttribute('cx', lerp(n.x1, n.x2, ph));
+        n.el.setAttribute('cy', lerp(n.y1, n.y2, ph));
+        n.el.setAttribute('opacity', on * (0.4 + 0.6 * Math.sin(ph * Math.PI)));
+      } else {
+        n.el.setAttribute('opacity', on * 0.3);
+      }
+    }
+
+    // 5) 财报会议 28s 后淡入（价格数字淡出）
+    var meet = clamp((t - 28) / 2, 0, 1);
+    document.getElementById('meeting').setAttribute('opacity', meet);
+    priceGroup.setAttribute('opacity', priceShow * (1 - meet));
+    // 会议中镜头缓推
+    if (meet > 0) {
+      world.setAttribute('transform', 'translate(0,' + lerp(0, -30, meet) + ') scale(' + lerp(1, 1.06, meet) + ')');
+      world.setAttribute('transform-origin', '960 540');
+    } else {
+      world.setAttribute('transform', '');
+    }
+
+    // 6) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 7) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

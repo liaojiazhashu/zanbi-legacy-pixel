@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S07 宣读遗嘱</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0B0E14}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#07090D"/>
+      <stop offset="1" stop-color="#0D1118"/>
+    </linearGradient>
+    <radialGradient id="faceLight" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <!-- 全息转青滤镜（feColorMatrix） -->
+    <filter id="holoify" x="-20%" y="-20%" width="140%" height="140%">
+      <feColorMatrix type="matrix" values="0 0 0 0 0.31  0 0 0 0 0.75  0 0 0 0 0.88  0 0 0 0.9 0"/>
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="transparent"/>
+      <rect width="4" height="1" fill="#0B0E14" opacity="0.35"/>
+    </pattern>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#hall)"/>
+
+    <!-- 穹顶拱肋（虚化暗色，呼应 S01） -->
+    <g opacity="0.5">
+      <path d="M 400 0 Q 500 240 520 520" fill="none" stroke="#242E3E" stroke-width="3"/>
+      <path d="M 1520 0 Q 1420 240 1400 520" fill="none" stroke="#242E3E" stroke-width="3"/>
+      <path d="M 960 0 L 960 260" fill="none" stroke="#242E3E" stroke-width="2"/>
+      <path d="M 760 0 Q 830 180 860 360" fill="none" stroke="#1A2230" stroke-width="2"/>
+      <path d="M 1160 0 Q 1090 180 1060 360" fill="none" stroke="#1A2230" stroke-width="2"/>
+    </g>
+
+    <!-- 全息投影（老年赞比，渐隐） -->
+    <g id="holoGroup" transform="translate(960, 420) scale(1.6)">
+      <g id="holoBody" filter="url(#holoify)"></g>
+    </g>
+    <!-- 全息投影扫描线 -->
+    <rect id="holoScan" x="0" y="0" width="1920" height="1080" fill="url(#scanlines)" opacity="0"/>
+
+    <!-- 克隆赞比面部特写（插画级） -->
+    <circle cx="960" cy="620" r="360" fill="url(#faceLight)" filter="url(#softGlow)"/>
+    <g id="cloneFace" transform="translate(960, 620)"></g>
+
+    <!-- 冷光边缘 -->
+    <rect x="0" y="0" width="1920" height="1080" fill="none" stroke="#4FC1E0" stroke-width="2" opacity="0.12"/>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">葬礼上，</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 12.9;
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  // 全息投影：老年赞比（插画级，套 holoify 转青）
+  var holo = CH.zhanbiOld();
+  document.getElementById('holoBody').appendChild(holo);
+
+  // 克隆赞比面部特写（年轻赞比：黑发短发、面无表情）
+  var faceG = CH.face(0, 0, 200, {
+    skin: '#E3B88E', hair: '#2B211A', hairStyle: 'short',
+    eyeColor: '#4A5E7E', expr: 'calm', browKind: 'flat'
+  });
+  document.getElementById('cloneFace').appendChild(faceG);
+
+  var SUBTITLES = [
+    {t: 1.0, text: "葬礼上，"},
+    {t: 1.9, text: "我宣读遗嘱的时候，"},
+    {t: 4.0, text: "克隆赞比没有任何表情，"},
+    {t: 6.6, text: "仿佛理所应当。"},
+    {t: 8.2, text: "确实，这很赞比。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 1) 全息投影渐隐（0-8s）
+    var holoOp = 1 - clamp(t / 8, 0, 1);
+    document.getElementById('holoGroup').setAttribute('opacity', 0.35 + 0.65 * holoOp);
+    document.getElementById('holoScan').setAttribute('opacity', holoOp * 0.5);
+
+    // 2) 克隆赞比面部：极轻微呼吸（scale 微动）+ 冷光微闪
+    var breathe = 1 + Math.sin(t * 1.6) * 0.008;
+    document.getElementById('cloneFace').setAttribute('transform', 'translate(960, 620) scale(' + breathe + ')');
+    document.getElementById('cloneFace').setAttribute('transform-origin', '960 620');
+
+    // 3) 镜头：2-10s 极缓推近面部
+    var zoom = clamp((t - 2) / 8, 0, 1);
+    world.setAttribute('transform', 'scale(' + lerp(1, 1.07, zoom) + ')');
+    world.setAttribute('transform-origin', '960 620');
+
+    // 4) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 5) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.2)) / 1.2, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

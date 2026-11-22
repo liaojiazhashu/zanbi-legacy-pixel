@@ -1,0 +1,40 @@
+Licensed under CC-0 (Public Domain).
+20.11.2023 
+Drawed by nyarlko.
+Website: https://nyarlko.com/
+Uploaded to: https://opengameart.org/users/nyarlko
+<3 Thanks for downloading it! <3
+Unity Sprite Animation Settings
+Automatic Center Delete Existing Slice
+Then write the holy numbers.
+From left to right.
+---> end of the line goes back to first one.
+   X     Y     W     H
+0  20    132   19    29
+1  50    132   19    29
+2  80    132   W H is same for all.
+3  131	 132
+4  159   130
+5  187   129
+6  217   129
+7  20    94
+8  49    94
+9  80    94
+10 131   93
+11 159   93
+12 188   93
+13 217   93
+14 20    55
+15 50    55
+16 81    55
+17 133   55
+18 162   55
+19 190   55
+20 219   55
+21 20    17
+22 51    17
+23 80    17
+24 130   17
+25 162   17
+26 185   17
+27 214   17

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S10 戴森环玉米田</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0B0E14}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#05070C"/>
+      <stop offset="0.5" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#1A1210"/>
+    </linearGradient>
+    <!-- 恒星 -->
+    <radialGradient id="starGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF3DA"/>
+      <stop offset="0.4" stop-color="#FFD27A"/>
+      <stop offset="0.75" stop-color="#FF9E4F"/>
+      <stop offset="1" stop-color="#FF7A3C" stop-opacity="0.4"/>
+    </radialGradient>
+    <radialGradient id="starHalo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFD27A" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#FFD27A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 土地 -->
+    <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4A3A2A"/>
+      <stop offset="1" stop-color="#2A2016"/>
+    </linearGradient>
+    <!-- 玉米叶 -->
+    <linearGradient id="cornLeaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8AAD5A"/>
+      <stop offset="1" stop-color="#5C7A3A"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#sky)"/>
+
+    <!-- 恒星 -->
+    <circle cx="960" cy="330" r="300" fill="url(#starHalo)" filter="url(#softGlow)"/>
+    <circle id="starCore" cx="960" cy="330" r="190" fill="url(#starGrad)" filter="url(#glow)"/>
+    <!-- 恒星表面纹理（光斑） -->
+    <circle cx="900" cy="290" r="40" fill="#FFE9B8" opacity="0.4"/>
+    <circle cx="1020" cy="360" r="30" fill="#FFB85A" opacity="0.5"/>
+
+    <!-- 两层戴森环（发光环带） -->
+    <g id="dysonRings">
+      <!-- 内环 -->
+      <ellipse cx="960" cy="330" rx="340" ry="120" fill="none" stroke="#4FC1E0" stroke-width="14" opacity="0.5" filter="url(#glow)"/>
+      <ellipse cx="960" cy="330" rx="340" ry="120" fill="none" stroke="#8B9ED8" stroke-width="4" opacity="0.7"/>
+      <!-- 外环 -->
+      <ellipse cx="960" cy="330" rx="470" ry="170" fill="none" stroke="#4FC1E0" stroke-width="12" opacity="0.35" filter="url(#glow)"/>
+      <ellipse cx="960" cy="330" rx="470" ry="170" fill="none" stroke="#8B9ED8" stroke-width="3" opacity="0.5"/>
+    </g>
+
+    <!-- 卷曲土地（向上延伸形成闭环） -->
+    <g id="curvedLand">
+      <!-- 主地面 -->
+      <path d="M -200 1080 Q 480 720 960 740 Q 1440 760 2120 1080 L 2120 1120 L -200 1120 Z" fill="url(#soil)"/>
+      <!-- 卷曲向上（两侧土地弧面） -->
+      <path d="M -200 1080 Q 200 640 420 520 Q 560 450 700 500" fill="none" stroke="#4A3A2A" stroke-width="60" stroke-linecap="round" opacity="0.9"/>
+      <path d="M 2120 1080 Q 1720 640 1500 520 Q 1360 450 1220 500" fill="none" stroke="#4A3A2A" stroke-width="60" stroke-linecap="round" opacity="0.9"/>
+      <!-- 土地高光边 -->
+      <path d="M -200 1080 Q 200 640 420 520" fill="none" stroke="#6B5A40" stroke-width="6" opacity="0.6"/>
+      <path d="M 2120 1080 Q 1720 640 1500 520" fill="none" stroke="#6B5A40" stroke-width="6" opacity="0.6"/>
+    </g>
+
+    <!-- 玉米田（JS 生成，插画级） -->
+    <g id="cornField"></g>
+
+    <!-- 理查德（沿田垄走） -->
+    <g id="richardWrap" transform="translate(200, 760)"></g>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">第三颗星球，</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 23.7;
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // ---- 插画级玉米（秆 + 叶片 + 穗 + 水珠） ----
+  var corn = [];
+  (function cornField(){
+    var g = document.getElementById('cornField');
+    for (var i = 0; i < 70; i++) {
+      var x = -100 + i * 28 + Math.random() * 20;
+      var baseY = 760 + Math.random() * 240;
+      var h = 120 + Math.random() * 100;
+      var grp = document.createElementNS(NS, 'g');
+      // 秆（微弯）
+      var lean = (Math.random() - 0.5) * 20;
+      var stalk = document.createElementNS(NS, 'path');
+      stalk.setAttribute('d', 'M ' + x + ' ' + baseY + ' Q ' + (x + lean) + ' ' + (baseY - h * 0.6) + ' ' + (x + lean) + ' ' + (baseY - h));
+      stalk.setAttribute('stroke', '#6B8A44');
+      stalk.setAttribute('stroke-width', '4');
+      stalk.setAttribute('fill', 'none');
+      grp.appendChild(stalk);
+      // 叶片（两侧弧形）
+      for (var l = 0; l < 4; l++) {
+        var leafY = baseY - h * (0.25 + l * 0.22);
+        var side = l % 2 === 0 ? -1 : 1;
+        var leaf = document.createElementNS(NS, 'path');
+        leaf.setAttribute('d', 'M ' + (x + lean * 0.3) + ' ' + leafY +
+          ' Q ' + (x + side * 34) + ' ' + (leafY - 20) + ' ' + (x + side * 52) + ' ' + (leafY - 8));
+        leaf.setAttribute('stroke', '#7A9A4F');
+        leaf.setAttribute('stroke-width', '5');
+        leaf.setAttribute('fill', 'none');
+        leaf.setAttribute('stroke-linecap', 'round');
+        grp.appendChild(leaf);
+      }
+      // 穗（顶部）
+      var cob = document.createElementNS(NS, 'ellipse');
+      cob.setAttribute('cx', x + lean);
+      cob.setAttribute('cy', baseY - h - 12);
+      cob.setAttribute('rx', '5');
+      cob.setAttribute('ry', '14');
+      cob.setAttribute('fill', '#D9C46A');
+      grp.appendChild(cob);
+      // 穗须
+      var silk = document.createElementNS(NS, 'path');
+      silk.setAttribute('d', 'M ' + (x + lean) + ' ' + (baseY - h - 24) + ' Q ' + (x + lean - 6) + ' ' + (baseY - h - 36) + ' ' + (x + lean - 2) + ' ' + (baseY - h - 44));
+      silk.setAttribute('stroke', '#E8D88A');
+      silk.setAttribute('stroke-width', '2');
+      silk.setAttribute('fill', 'none');
+      grp.appendChild(silk);
+      // 水珠高光（叶尖）
+      var dew = document.createElementNS(NS, 'circle');
+      dew.setAttribute('cx', x + (l === 0 ? -52 : 52));
+      dew.setAttribute('cy', (baseY - h * 0.25) - 8);
+      dew.setAttribute('r', '2');
+      dew.setAttribute('fill', '#8B9ED8');
+      dew.setAttribute('opacity', '0.7');
+      grp.appendChild(dew);
+      g.appendChild(grp);
+      corn.push({g: grp, x: x, baseY: baseY});
+    }
+  })();
+
+  // ---- 理查德（插画级小人） ----
+  var richard = CH.richard();
+  document.getElementById('richardWrap').appendChild(richard);
+
+  var SUBTITLES = [
+    {t: 1.0, text: "第三颗星球，"},
+    {t: 2.2, text: "叫拉格朗日八号，"},
+    {t: 3.8, text: "一颗正在燃烧的恒星。"},
+    {t: 5.9, text: "赞比在恒星的周围，"},
+    {t: 7.7, text: "建了两层戴森环，"},
+    {t: 9.3, text: "然后在环上，"},
+    {t: 10.5, text: "种满了玉米。"},
+    {t: 11.7, text: "我被邀请来到这里。"},
+    {t: 13.5, text: "玉米已经齐腰高了，"},
+    {t: 15.4, text: "土地卷曲着向上，"},
+    {t: 17.0, text: "一直延伸到我的背后，"},
+    {t: 19.1, text: "形成完美的闭环。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 1) 镜头沿田垄缓移（4-18s）：前景玉米视差快、背景慢
+    var pan = easeInOut(clamp((t - 4) / 14, 0, 1));
+    var shift = pan * 320;
+    for (var i = 0; i < corn.length; i++) {
+      var c = corn[i];
+      var depth = (c.baseY - 760) / 240; // 0=远 1=近
+      var parallax = shift * (0.3 + depth * 0.9);
+      c.g.setAttribute('transform', 'translate(' + (-parallax) + ',0)');
+    }
+    // 土地/戴森环轻微反向移动
+    document.getElementById('curvedLand').setAttribute('transform', 'translate(' + (-shift * 0.25) + ',0)');
+    document.getElementById('dysonRings').setAttribute('transform', 'translate(' + (-shift * 0.1) + ',0)');
+
+    // 2) 理查德沿田垄走（11.7-19s，从右向左走）
+    var walk = easeInOut(clamp((t - 11.7) / 7, 0, 1));
+    var rx = lerp(1500, 700, walk);
+    document.getElementById('richardWrap').setAttribute('transform', 'translate(' + rx + ', 760) scale(0.5)');
+    // 走路起伏
+    var bounce = Math.abs(Math.sin(walk * Math.PI * 8)) * 4;
+    document.getElementById('richardWrap').setAttribute('transform', 'translate(' + rx + ', ' + (760 - bounce) + ') scale(0.5)');
+
+    // 3) 恒星微呼吸辉光
+    var starPulse = 1 + Math.sin(t * 1.5) * 0.03;
+    document.getElementById('starCore').setAttribute('r', 190 * starPulse);
+
+    // 4) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 5) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

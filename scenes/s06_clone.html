@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S06 临终克隆</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0B0E14}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 病房墙（冷白，微蓝） -->
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9D4DE"/>
+      <stop offset="1" stop-color="#9FB0BF"/>
+    </linearGradient>
+    <!-- 窗冷光 -->
+    <linearGradient id="winLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DFEAF2"/>
+      <stop offset="1" stop-color="#B8CCDA"/>
+    </linearGradient>
+    <!-- 床单 -->
+    <linearGradient id="sheet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDF2F6"/>
+      <stop offset="1" stop-color="#C3D0DA"/>
+    </linearGradient>
+    <!-- 被子 -->
+    <linearGradient id="blanket" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DCE6EC"/>
+      <stop offset="0.6" stop-color="#B9C9D4"/>
+      <stop offset="1" stop-color="#9FB0BF"/>
+    </linearGradient>
+    <!-- 门光 -->
+    <radialGradient id="doorGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <!-- 墙 -->
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#wall)"/>
+    <!-- 地面 -->
+    <rect x="0" y="860" width="1920" height="220" fill="#A8B8C4"/>
+    <rect x="0" y="860" width="1920" height="4" fill="#8A9BA8"/>
+    <!-- 踢脚线 -->
+    <rect x="0" y="830" width="1920" height="30" fill="#B8C8D4"/>
+
+    <!-- 右侧窗（冷光） -->
+    <g id="window">
+      <rect x="1560" y="160" width="260" height="420" rx="8" fill="url(#winLight)" stroke="#8A9BA8" stroke-width="8"/>
+      <line x1="1690" y1="160" x2="1690" y2="580" stroke="#8A9BA8" stroke-width="6"/>
+      <line x1="1560" y1="360" x2="1820" y2="360" stroke="#8A9BA8" stroke-width="6"/>
+      <!-- 窗光射入 -->
+      <polygon points="1560,580 1820,580 1300,900 1000,900" fill="#EAF2F8" opacity="0.18"/>
+      <!-- 窗外远景（模糊光斑） -->
+      <circle cx="1640" cy="260" r="18" fill="#FFFFFF" opacity="0.5"/>
+      <circle cx="1740" cy="300" r="12" fill="#FFFFFF" opacity="0.35"/>
+    </g>
+
+    <!-- 床头板 -->
+    <rect x="180" y="300" width="80" height="560" rx="10" fill="#8A9BA8"/>
+    <rect x="180" y="300" width="80" height="14" fill="#A8B8C4"/>
+
+    <!-- 病床 -->
+    <g id="bed">
+      <!-- 床架 -->
+      <rect x="220" y="820" width="820" height="40" rx="6" fill="#6B7A88"/>
+      <rect x="240" y="700" width="780" height="120" fill="#7A8A98"/>
+      <!-- 床垫 -->
+      <rect x="250" y="660" width="760" height="120" rx="14" fill="url(#sheet)"/>
+      <!-- 枕头 -->
+      <ellipse cx="430" cy="640" rx="130" ry="60" fill="#F4F8FA"/>
+      <!-- 被子（盖住老人下半身，JS 控制起伏） -->
+      <path id="blanketPath" d="M 300 640 Q 380 600 500 630 Q 650 570 820 620 Q 920 640 1010 640 L 1010 820 L 300 820 Z" fill="url(#blanket)"/>
+      <!-- 被子褶皱 -->
+      <path d="M 380 660 Q 420 640 470 660" fill="none" stroke="#9FB0BF" stroke-width="2" opacity="0.6"/>
+      <path d="M 620 630 Q 680 610 740 630" fill="none" stroke="#9FB0BF" stroke-width="2" opacity="0.6"/>
+      <path d="M 820 640 Q 880 625 940 645" fill="none" stroke="#9FB0BF" stroke-width="2" opacity="0.6"/>
+    </g>
+
+    <!-- 心电监护仪 -->
+    <g id="monitor">
+      <rect x="50" y="540" width="120" height="200" rx="10" fill="#C9D4DE" stroke="#8A9BA8" stroke-width="3"/>
+      <rect x="64" y="558" width="92" height="70" rx="4" fill="#0B0E14"/>
+      <!-- 心电线（绿色跳动） -->
+      <polyline id="ecgLine" points="66,600 80,600 86,585 90,610 94,585 100,600 116,600 122,585 126,610 130,585 136,600 154,600" fill="none" stroke="#4FC1E0" stroke-width="2" filter="url(#glow)"/>
+      <!-- 数字 79 -->
+      <text x="110" y="680" text-anchor="middle" font-size="30" fill="#4FC1E0" font-family="'Segoe UI',monospace" filter="url(#glow)">79</text>
+      <!-- 按钮 -->
+      <rect x="70" y="700" width="20" height="12" rx="2" fill="#8A9BA8"/>
+      <rect x="98" y="700" width="20" height="12" rx="2" fill="#8A9BA8"/>
+    </g>
+
+    <!-- 输液架 -->
+    <g id="ivStand">
+      <line x1="1090" y1="520" x2="1090" y2="860" stroke="#A8B8C4" stroke-width="6"/>
+      <line x1="1050" y1="520" x2="1130" y2="520" stroke="#A8B8C4" stroke-width="6"/>
+      <rect x="1055" y="508" width="70" height="14" rx="4" fill="#C9D4DE"/>
+      <line x1="1090" y1="520" x2="1090" y2="680" stroke="#8B9ED8" stroke-width="2" opacity="0.5"/>
+    </g>
+
+    <!-- 老年赞比（半坐卧，露头 + 露手） -->
+    <g id="oldZhanbi">
+      <!-- 头部（虚弱，靠枕） -->
+      <g id="oldHead" transform="translate(430, 560)"></g>
+      <!-- 露出的手（抬手动画用） -->
+      <g id="oldHand" transform="translate(560, 610)">
+        <rect x="0" y="0" width="26" height="34" rx="9" fill="#D9B08A"/>
+        <line x1="4" y1="0" x2="4" y2="-26" stroke="#D9B08A" stroke-width="7" stroke-linecap="round"/>
+        <line x1="13" y1="0" x2="13" y2="-26" stroke="#D9B08A" stroke-width="7" stroke-linecap="round"/>
+        <line x1="22" y1="0" x2="22" y2="-22" stroke="#D9B08A" stroke-width="7" stroke-linecap="round"/>
+        <!-- 皱纹 -->
+        <path d="M 2 12 L 24 12 M 4 20 L 22 20" stroke="#B8906A" stroke-width="1.2" opacity="0.6"/>
+      </g>
+    </g>
+
+    <!-- 门（右侧） -->
+    <g id="door">
+      <rect x="1720" y="300" width="160" height="560" fill="#8A9BA8" opacity="0"/>
+    </g>
+
+    <!-- 克隆赞比（从门走入） -->
+    <g id="cloneWrap" opacity="0">
+      <g id="clone" transform="translate(0, 0)"></g>
+    </g>
+
+    <!-- 门光（克隆赞比进入时） -->
+    <circle id="doorLight" cx="1800" cy="580" r="200" fill="url(#doorGlow)" filter="url(#softGlow)" opacity="0"/>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.6" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#0B0E14" opacity="0">他活到了七十九岁。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 44.0;
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  // 老年赞比头部（插画级 face：秃顶稀疏白发、虚弱悲伤、眼微闭）
+  var oldHeadG = CH.face(0, 0, 30, {
+    skin: '#D9B08A', hair: '#C9D2D8', hairDark: '#A8B4BC', hairStyle: 'bald',
+    eyeColor: '#6B7A88', expr: 'sad', browKind: 'sad'
+  });
+  // 稀疏白发补丁
+  var NS = 'http://www.w3.org/2000/svg';
+  var whiteHair = document.createElementNS(NS, 'path');
+  whiteHair.setAttribute('d', 'M -26 -20 Q 3 -6 26 -23 Q 12 -34 -9 -33 Z');
+  whiteHair.setAttribute('fill', '#C9D2D8');
+  whiteHair.setAttribute('opacity', '0.9');
+  oldHeadG.appendChild(whiteHair);
+  document.getElementById('oldHead').appendChild(oldHeadG);
+
+  // 克隆赞比（插画级：黑发短发、深色西装、冰青领带 = 年轻赞比）
+  var clone = CH.adult({h: 400, skin:'#E3B88E', hair:'#2B211A', hairStyle:'short', suit:'#2B3038', shirt:'#E8EEF4', tie:'#4FC1E0', pants:'#151A24', expr:'calm', browKind:'flat'});
+  document.getElementById('clone').appendChild(clone);
+
+  var SUBTITLES = [
+    {t: 1.0, text: "他活到了七十九岁。"},
+    {t: 2.9, text: "我劝他接受基因改造，"},
+    {t: 5.1, text: "技术已经能把寿命延长到几百年。"},
+    {t: 8.3, text: "他微笑着拒绝了，"},
+    {t: 10.0, text: "他觉得自己活得已经够长了。"},
+    {t: 12.9, text: "果然，"},
+    {t: 13.4, text: "下一秒，"},
+    {t: 14.2, text: "一个中年人走进了病房，"},
+    {t: 16.6, text: "他长得和赞比一模一样，"},
+    {t: 19.0, text: "或者说，"},
+    {t: 19.7, text: "更年轻。"},
+    {t: 20.7, text: "亲爱的理查德，我的全部遗产，都继承给他。"},
+    {t: 26.0, text: "你帮我立一份遗嘱。"},
+    {t: 28.6, text: "赞比克隆了一个年轻力壮的自己。"},
+    {t: 31.8, text: "他拥有赞比的全部记忆，"},
+    {t: 34.1, text: "并且即将拥有赞比的全部财富。"},
+    {t: 37.3, text: "他本质上，和我是一样的。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 1) 心电监护线：0-6s 微闪（正常心跳）
+    var ecg = document.getElementById('ecgLine');
+    var blink = (Math.floor(t * 2) % 2 === 0) ? 1 : 0.6;
+    ecg.setAttribute('opacity', 0.7 + 0.3 * Math.sin(t * 4));
+
+    // 2) 克隆赞比从门走入（14-19s）
+    var walkIn = clamp((t - 14) / 5, 0, 1);
+    var walkE = easeInOut(walkIn);
+    var cloneWrap = document.getElementById('cloneWrap');
+    var clone = document.getElementById('clone');
+    cloneWrap.setAttribute('opacity', clamp(walkIn * 2, 0, 1));
+    // 从门 x=1760 走到床边 x=1240（脚底坐标）
+    var cx = lerp(1820, 1280, walkE);
+    clone.setAttribute('transform', 'translate(' + cx + ', 860) scale(' + lerp(0.8, 1.0, walkIn) + ')');
+    // 门光
+    document.getElementById('doorLight').setAttribute('opacity', (walkIn > 0 && walkIn < 1) ? 0.7 : 0);
+
+    // 3) 老年赞比抬手（20-27s）
+    var handG = document.getElementById('oldHand');
+    var raise = clamp((t - 20) / 4, 0, 1);
+    var raiseE = easeInOut(raise);
+    handG.setAttribute('transform', 'translate(560, 610) rotate(' + lerp(0, -50, raiseE) + ')');
+    // 被子随抬手轻微起伏
+    var blanket = document.getElementById('blanketPath');
+    var breathe = Math.sin(t * 1.8) * 3;
+    blanket.setAttribute('d', 'M 300 ' + (640 + breathe) + ' Q 380 ' + (600 + breathe) + ' 500 ' + (630 + breathe) + ' Q 650 ' + (570 + breathe) + ' 820 ' + (620 + breathe) + ' Q 920 640 1010 640 L 1010 820 L 300 820 Z');
+
+    // 4) 镜头：28-37s 推近双人（老年 vs 克隆）
+    var zoom = clamp((t - 28) / 9, 0, 1);
+    var zE = easeInOut(zoom);
+    world.setAttribute('transform', 'translate(' + lerp(0, 140, zE) + ',' + lerp(0, -60, zE) + ') scale(' + lerp(1, 1.18, zE) + ')');
+    world.setAttribute('transform-origin', '700 640');
+
+    // 5) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.6);
+
+    // 6) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

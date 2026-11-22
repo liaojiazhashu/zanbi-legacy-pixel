@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S13 女孩的信</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#120C08}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="warm" cx="0.5" cy="0.42" r="0.8">
+      <stop offset="0" stop-color="#3A2418"/>
+      <stop offset="1" stop-color="#140D08"/>
+    </radialGradient>
+    <radialGradient id="lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFD9A0" stop-opacity="0.9"/>
+      <stop offset="0.4" stop-color="#FFB060" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#FFB060" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5A3A22"/>
+      <stop offset="1" stop-color="#3A2418"/>
+    </linearGradient>
+    <linearGradient id="botShell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8E4DC"/>
+      <stop offset="1" stop-color="#B0ACA4"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#warm)"/>
+
+    <!-- 窗外：星空 + 农田 + 双月 -->
+    <g id="window">
+      <rect x="80" y="120" width="420" height="520" rx="6" fill="#0B0E14" opacity="0.9"/>
+      <!-- 星空 -->
+      <g id="winStars"></g>
+      <!-- 双月 -->
+      <circle cx="220" cy="220" r="40" fill="#C8D8E8" opacity="0.9"/>
+      <circle cx="320" cy="260" r="22" fill="#8B9ED8" opacity="0.8"/>
+      <!-- 农田 -->
+      <g stroke="#1A2A18" stroke-width="3">
+        <line x1="80" y1="560" x2="500" y2="560"/>
+        <line x1="80" y1="600" x2="500" y2="600"/>
+        <line x1="80" y1="640" x2="500" y2="640"/>
+      </g>
+      <!-- 农田作物剪影 -->
+      <g fill="#0F1A10">
+        <path d="M 100 560 q 10 -30 20 0 q 10 -30 20 0 z"/>
+        <path d="M 180 560 q 10 -30 20 0 q 10 -30 20 0 z"/>
+        <path d="M 300 600 q 10 -30 20 0 q 10 -30 20 0 z"/>
+        <path d="M 400 560 q 10 -30 20 0 q 10 -30 20 0 z"/>
+      </g>
+      <!-- 窗框 -->
+      <rect x="80" y="120" width="420" height="520" rx="6" fill="none" stroke="#5A3A22" stroke-width="14"/>
+      <line x1="290" y1="120" x2="290" y2="640" stroke="#5A3A22" stroke-width="10"/>
+      <line x1="80" y1="380" x2="500" y2="380" stroke="#5A3A22" stroke-width="10"/>
+    </g>
+
+    <!-- 台灯光晕 -->
+    <circle id="lampGlow" cx="760" cy="500" r="320" fill="url(#lamp)"/>
+
+    <!-- 书桌（暖木） -->
+    <g id="desk">
+      <rect x="0" y="700" width="1300" height="380" fill="url(#wood)"/>
+      <line x1="0" y1="700" x2="1300" y2="700" stroke="#6A4A2A" stroke-width="3"/>
+      <!-- 木纹 -->
+      <path d="M 100 760 Q 600 750 1200 765" fill="none" stroke="#4A2E18" stroke-width="2" opacity="0.5"/>
+      <path d="M 150 830 Q 650 825 1150 835" fill="none" stroke="#4A2E18" stroke-width="2" opacity="0.4"/>
+    </g>
+
+    <!-- 台灯 -->
+    <g id="lamp">
+      <path d="M 700 700 L 700 560 Q 700 520 740 500 L 820 480" fill="none" stroke="#3A2418" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 700 540 Q 730 470 840 460" fill="none" stroke="#5A3A22" stroke-width="14" stroke-linecap="round"/>
+      <ellipse cx="820" cy="485" rx="60" ry="22" fill="#FFD9A0" opacity="0.95" filter="url(#glow)"/>
+      <rect x="690" y="700" width="40" height="18" rx="4" fill="#2A1808"/>
+    </g>
+
+    <!-- 信纸（桌面中央） -->
+    <g id="letter">
+      <rect x="620" y="700" width="360" height="240" rx="6" fill="#F4EEDC" transform="rotate(-4 800 820)"/>
+      <line x1="660" y1="740" x2="950" y2="735" stroke="#B0A890" stroke-width="3" transform="rotate(-4 800 820)"/>
+      <line x1="660" y1="770" x2="920" y2="766" stroke="#B0A890" stroke-width="3" transform="rotate(-4 800 820)"/>
+      <line x1="660" y1="800" x2="940" y2="796" stroke="#B0A890" stroke-width="3" transform="rotate(-4 800 820)"/>
+      <line x1="660" y1="830" x2="880" y2="827" stroke="#B0A890" stroke-width="3" transform="rotate(-4 800 820)"/>
+      <line x1="660" y1="860" x2="910" y2="857" stroke="#B0A890" stroke-width="3" transform="rotate(-4 800 820)"/>
+      <!-- 正在写的字（渐显） -->
+      <text id="letterText" x="820" y="850" text-anchor="middle" font-size="26" fill="#5A4A30" font-family="'KaiTi','STKaiti','Microsoft YaHei',serif" opacity="0" transform="rotate(-4 800 820)">晚安，小姐。</text>
+    </g>
+
+    <!-- 女孩（伏案写信，自绘插画级，侧对镜头朝右） -->
+    <g id="girlSit" transform="translate(700, 700)">
+      <!-- 身体（前倾） -->
+      <path d="M -30 -160 Q -50 -80 -40 -10 L 40 -10 Q 30 -80 20 -160 Z" fill="#C07048"/>
+      <!-- 衣服 -->
+      <path d="M -30 -160 Q -50 -80 -40 -10 L 40 -10 Q 30 -80 20 -160 Z" fill="#E8A060" opacity="0.85"/>
+      <path d="M -30 -120 Q -45 -70 -38 -10 L -14 -10 Q -18 -70 -12 -120 Z" fill="#F4D8B0" opacity="0.5"/>
+      <!-- 手臂（伸向信纸，握笔） -->
+      <path d="M 0 -90 Q 60 -60 90 -20 Q 100 -8 96 0" fill="none" stroke="#C07048" stroke-width="20" stroke-linecap="round"/>
+      <!-- 手 -->
+      <circle cx="96" cy="0" r="11" fill="#C07048"/>
+      <!-- 笔 -->
+      <line x1="90" y1="2" x2="60" y2="18" stroke="#2A1808" stroke-width="5" stroke-linecap="round"/>
+      <!-- 头（侧对，低头） -->
+      <g id="girlHead" transform="translate(-10, -190)">
+        <!-- 脖子 -->
+        <rect x="-8" y="10" width="16" height="20" rx="6" fill="#C07048"/>
+        <!-- 头（圆，低头朝右下） -->
+        <ellipse cx="0" cy="0" rx="38" ry="40" fill="#D9A878"/>
+        <!-- 头发（深棕，马尾） -->
+        <path d="M -38 -10 Q -40 -45 -10 -50 Q 20 -50 34 -30 Q 40 -10 30 8 Q 30 -20 10 -30 Q -20 -35 -30 -12 Z" fill="#4A2E18"/>
+        <!-- 马尾 -->
+        <path d="M 20 -45 Q 60 -50 70 -30 Q 74 -20 66 -18 Q 58 -28 40 -32 Q 24 -36 16 -42 Z" fill="#4A2E18"/>
+        <!-- 眼睛（侧，向下看，专注） -->
+        <path d="M 8 -6 Q 14 -4 20 -6" fill="none" stroke="#2A1808" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- 睫毛 -->
+        <line x1="8" y1="-6" x2="6" y2="-11" stroke="#2A1808" stroke-width="1.5"/>
+        <!-- 脸颊高光 -->
+        <ellipse cx="12" cy="6" rx="6" ry="3" fill="#F0B088" opacity="0.5"/>
+        <!-- 嘴（专注，微抿） -->
+        <path d="M 16 10 Q 20 12 24 10" fill="none" stroke="#A06040" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- 仿生人保姆（自绘，站女孩身后左侧，浅色外壳 + 围裙） -->
+    <g id="botNanny" transform="translate(420, 700)">
+      <!-- 身体（浅色外壳） -->
+      <path d="M -45 -220 L 45 -220 L 40 -10 L -40 -10 Z" fill="url(#botShell)"/>
+      <!-- 围裙 -->
+      <path d="M -30 -120 L 30 -120 L 26 -10 L -26 -10 Z" fill="#D8D0C0" opacity="0.85"/>
+      <!-- 围裙口袋 -->
+      <rect x="-12" y="-70" width="24" height="20" rx="3" fill="#C0B8A8"/>
+      <!-- 手臂 -->
+      <rect x="-58" y="-180" width="16" height="120" rx="8" fill="#C8C4BC"/>
+      <rect x="42" y="-180" width="16" height="120" rx="8" fill="#C8C4BC"/>
+      <!-- 手 -->
+      <circle cx="-50" cy="-56" r="9" fill="#D8D4CC"/>
+      <circle cx="50" cy="-56" r="9" fill="#D8D4CC"/>
+      <!-- 头（圆润） -->
+      <g id="botHead" transform="translate(0, -245)">
+        <ellipse cx="0" cy="0" rx="42" ry="38" fill="url(#botShell)"/>
+        <!-- 发光眼睛（暖色，渐亮） -->
+        <ellipse id="botEyeL" cx="-15" cy="-2" rx="10" ry="5" fill="#FFB060" opacity="0.3"/>
+        <ellipse id="botEyeR" cx="15" cy="-2" rx="10" ry="5" fill="#FFB060" opacity="0.3"/>
+        <!-- 嘴（微笑） -->
+        <path d="M -10 14 Q 0 20 10 14" fill="none" stroke="#8A8478" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- 头顶天线 -->
+        <line x1="0" y1="-38" x2="0" y2="-56" stroke="#B0ACA4" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="0" cy="-58" r="5" fill="#FFB060" opacity="0.5"/>
+      </g>
+    </g>
+
+    <!-- 末尾转冷 overlay（机械赞比扔信） -->
+    <rect id="coldOverlay" x="0" y="0" width="1920" height="1080" fill="#4FC1E0" opacity="0"/>
+    <!-- 信纸被扔（飘落） -->
+    <g id="tossLetter" opacity="0">
+      <rect x="0" y="0" width="300" height="200" rx="6" fill="#F4EEDC"/>
+      <line x1="30" y1="40" x2="270" y2="35" stroke="#B0A890" stroke-width="3"/>
+      <line x1="30" y1="70" x2="250" y2="66" stroke="#B0A890" stroke-width="3"/>
+      <line x1="30" y1="100" x2="260" y2="96" stroke="#B0A890" stroke-width="3"/>
+    </g>
+  </g>
+
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">书出版后第三周，赞比收到一封信。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script>
+  window.SCENE_DURATION = 34.1;
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  // 窗外星空
+  var winStars = document.getElementById('winStars');
+  for (var i = 0; i < 60; i++) {
+    var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', 80 + Math.random() * 420);
+    c.setAttribute('cy', 120 + Math.random() * 300);
+    c.setAttribute('r', Math.random() * 1.4 + 0.4);
+    c.setAttribute('fill', '#C8D8E8');
+    c.setAttribute('opacity', Math.random() * 0.7 + 0.2);
+    winStars.appendChild(c);
+  }
+
+  var SUBTITLES = [
+    {t: 1.0, text: "书出版后第三周，赞比收到一封信。"},
+    {t: 4.1, text: "写信的是一个十二岁的女孩，"},
+    {t: 6.7, text: "住在银河系边缘的农业星球。"},
+    {t: 9.3, text: "她有一个仿生人保姆，"},
+    {t: 11.3, text: "从她出生就在她家，"},
+    {t: 13.1, text: "她一直把它当工具用。"},
+    {t: 15.3, text: "读完您的书之后，我第一次跟它说了晚安。"},
+    {t: 20.1, text: "它愣了一下，然后说，晚安，小姐。"},
+    {t: 23.8, text: "我哭了。"},
+    {t: 24.7, text: "谢谢您。"},
+    {t: 25.9, text: "机械赞比并不在乎读者的评价，"},
+    {t: 29.2, text: "他随手把信扔了。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 保姆眼睛渐亮（9.3s 后提及保姆时亮起，20.1s 对话时最亮）
+    var eyeOn = clamp((t - 9.3) / 2, 0, 1);
+    var eyeGlow = eyeOn * (0.4 + 0.6 * clamp((t - 20.1) / 1.5, 0, 1));
+    document.getElementById('botEyeL').setAttribute('opacity', eyeGlow);
+    document.getElementById('botEyeR').setAttribute('opacity', eyeGlow);
+
+    // 台灯光晕呼吸
+    document.getElementById('lampGlow').setAttribute('opacity', 0.85 + 0.15 * Math.sin(t * 2.5));
+
+    // 信纸文字（15.3-25s 渐显「晚安，小姐。」）
+    var txt = easeInOut(clamp((t - 20.1) / 1.2, 0, 1));
+    document.getElementById('letterText').setAttribute('opacity', txt);
+
+    // 镜头：0-10s 推近女孩（scale 1→1.12），10-25s 保持
+    var push = easeInOut(clamp(t / 10, 0, 1));
+    var sc = 1 + 0.12 * push;
+    world.setAttribute('transform', 'scale(' + sc + ')');
+    world.setAttribute('transform-origin', '760 700');
+
+    // 末尾转冷（25.9s 后）：暖光衰减 + 冷色 overlay + 信纸被扔飘落
+    var cold = easeInOut(clamp((t - 25.9) / 3, 0, 1));
+    document.getElementById('coldOverlay').setAttribute('opacity', cold * 0.35);
+    document.getElementById('lampGlow').setAttribute('opacity', (0.85 + 0.15 * Math.sin(t * 2.5)) * (1 - cold));
+    // 信纸被扔（飘落旋转）
+    var toss = clamp((t - 29.2) / 1, 0, 1);
+    var tossG = document.getElementById('tossLetter');
+    tossG.setAttribute('opacity', toss);
+    if (t >= 29.2) {
+      var dt = t - 29.2;
+      tossG.setAttribute('transform', 'translate(' + (400 + dt * 600) + ',' + (300 + dt * 350 + 200 * dt * dt) + ') rotate(' + (dt * 180) + ')');
+    }
+
+    // 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) { if (t >= SUBTITLES[s].t) cur = SUBTITLES[s]; }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) { subText.textContent = cur.text; subText.setAttribute('data-cur', cur.text); }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+  setTime(0);
+</script>
+</body>
+</html>

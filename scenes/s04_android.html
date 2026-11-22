@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S04 修好第一台仿生人</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0d1016}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 棚屋背景 -->
+    <linearGradient id="shedBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B0E14"/>
+      <stop offset="0.6" stop-color="#10141C"/>
+      <stop offset="1" stop-color="#131822"/>
+    </linearGradient>
+    <!-- 工作台暖光（工作灯） -->
+    <radialGradient id="lampGlow" cx="0.5" cy="0.2" r="0.8">
+      <stop offset="0" stop-color="#FFC97A" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#E8A85C" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#E8A85C" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 工作台面 -->
+    <linearGradient id="bench" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A3342"/>
+      <stop offset="1" stop-color="#161C26"/>
+    </linearGradient>
+    <!-- 通电辉光 -->
+    <radialGradient id="eyeGlowGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 火花暖光 -->
+    <radialGradient id="sparkGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFD9A0" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#FFB84D" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 发光滤镜 -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <!-- 棚屋背景 -->
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#shedBg)"/>
+
+    <!-- 木梁结构（插画级：有明暗） -->
+    <g id="beams">
+      <rect x="0" y="0" width="1920" height="26" fill="#1A1410"/>
+      <rect x="0" y="20" width="1920" height="6" fill="#2A1F16" opacity="0.7"/>
+      <!-- 斜梁 -->
+      <g stroke="#1A1410" stroke-width="11" stroke-linecap="round">
+        <line x1="160" y1="0" x2="40" y2="700"/>
+        <line x1="660" y1="0" x2="600" y2="700"/>
+        <line x1="1320" y1="0" x2="1380" y2="700"/>
+        <line x1="1760" y1="0" x2="1880" y2="700"/>
+      </g>
+      <!-- 横梁 -->
+      <g stroke="#1A1410" stroke-width="8" opacity="0.6">
+        <line x1="0" y1="250" x2="1920" y2="250"/>
+        <line x1="0" y1="500" x2="1920" y2="500"/>
+      </g>
+      <!-- 木梁高光 -->
+      <g stroke="#3A2A1C" stroke-width="2" opacity="0.4">
+        <line x1="160" y1="4" x2="40" y2="700"/>
+        <line x1="1320" y1="4" x2="1380" y2="700"/>
+      </g>
+    </g>
+
+    <!-- 工作灯（顶部吊灯，暖光） -->
+    <g id="lamp">
+      <line x1="960" y1="0" x2="960" y2="180" stroke="#1A1410" stroke-width="4"/>
+      <path d="M 920 180 L 1000 180 L 985 210 L 935 210 Z" fill="#3A2A1C"/>
+      <circle cx="960" cy="224" r="12" fill="#FFC97A" filter="url(#glow)"/>
+      <circle cx="960" cy="224" r="30" fill="#FFC97A" opacity="0.35" filter="url(#softGlow)"/>
+    </g>
+    <!-- 工作灯暖光锥 -->
+    <ellipse cx="960" cy="660" rx="360" ry="220" fill="url(#lampGlow)"/>
+
+    <!-- 工具墙（插画级：扳手/螺丝刀/线缆/零件盒） -->
+    <g id="toolWall">
+      <!-- 工具架 -->
+      <rect x="1440" y="200" width="400" height="18" rx="4" fill="#1A1410"/>
+      <rect x="1440" y="200" width="400" height="4" fill="#3A2A1C" opacity="0.5"/>
+      <!-- 挂着的工具 -->
+      <g fill="#2A1F16" stroke="#1A1410" stroke-width="1.5">
+        <!-- 扳手 -->
+        <rect x="1500" y="218" width="9" height="62" rx="3"/>
+        <circle cx="1504" cy="284" r="8" fill="none" stroke="#2A1F16" stroke-width="5"/>
+        <!-- 螺丝刀 -->
+        <rect x="1540" y="218" width="7" height="48" rx="2"/>
+        <rect x="1536" y="266" width="15" height="7" rx="2"/>
+        <!-- 大扳手 -->
+        <rect x="1590" y="218" width="10" height="74" rx="3"/>
+        <circle cx="1595" cy="296" r="10" fill="none" stroke="#2A1F16" stroke-width="5"/>
+        <!-- 锤子 -->
+        <rect x="1650" y="218" width="8" height="40" rx="2"/>
+        <rect x="1638" y="258" width="32" height="12" rx="3"/>
+        <!-- 螺丝刀 -->
+        <rect x="1720" y="218" width="7" height="52" rx="2"/>
+        <rect x="1716" y="270" width="15" height="7" rx="2"/>
+      </g>
+      <!-- 线缆（缠绕挂起） -->
+      <path d="M 1470 240 Q 1450 260 1470 280 Q 1490 300 1470 320" fill="none" stroke="#2A1F16" stroke-width="4" opacity="0.7"/>
+      <!-- 零件盒 -->
+      <rect x="1460" y="340" width="120" height="40" rx="4" fill="#1A1410"/>
+      <rect x="1460" y="340" width="120" height="6" fill="#2A1F16" opacity="0.6"/>
+      <circle cx="1490" cy="360" r="4" fill="#3A4350"/>
+      <circle cx="1510" cy="360" r="4" fill="#3A4350"/>
+      <circle cx="1530" cy="360" r="4" fill="#4A3626"/>
+      <circle cx="1550" cy="360" r="4" fill="#3A4350"/>
+      <circle cx="1570" cy="360" r="4" fill="#4A3626"/>
+    </g>
+
+    <!-- 工作台 -->
+    <g id="bench">
+      <rect x="640" y="700" width="640" height="24" fill="url(#bench)" stroke="#2A3342" stroke-width="2"/>
+      <rect x="640" y="700" width="640" height="5" fill="#3A475A" opacity="0.5"/>
+      <rect x="660" y="724" width="22" height="356" fill="#141A26"/>
+      <rect x="1238" y="724" width="22" height="356" fill="#141A26"/>
+      <rect x="700" y="724" width="520" height="30" fill="#0F141C" opacity="0.6"/>
+      <!-- 台面杂物（受暖光） -->
+      <rect x="900" y="682" width="60" height="18" rx="2" fill="#2A3342"/>
+      <rect x="1280" y="686" width="80" height="14" rx="2" fill="#242E3E"/>
+      <rect x="660" y="688" width="70" height="12" rx="2" fill="#242E3E"/>
+      <rect x="700" y="686" width="40" height="14" rx="2" fill="#3A475A"/>
+    </g>
+
+    <!-- 仿生人（JS 插入，站在台后） -->
+    <g id="androidWrap"></g>
+
+    <!-- 少年赞比背影（插画级：乱发/破衣补丁/持焊枪） -->
+    <g id="boyBack">
+      <!-- 后脑勺 + 乱发 -->
+      <circle cx="600" cy="642" r="24" fill="#D9B08A"/>
+      <path d="M 576 640 Q 570 616 586 606 Q 600 596 616 604 Q 628 612 626 626 Q 620 640 610 646 Q 596 650 584 646 Z" fill="#2B211A"/>
+      <path d="M 586 606 Q 592 592 604 590 Q 614 592 616 600" fill="none" stroke="#2B211A" stroke-width="5" stroke-linecap="round"/>
+      <path d="M 610 600 Q 620 592 628 596" fill="none" stroke="#2B211A" stroke-width="4" stroke-linecap="round"/>
+      <!-- 脖子 -->
+      <rect x="590" y="662" width="20" height="12" fill="#D9B08A"/>
+      <!-- 身体背面（破衣，肩到腰） -->
+      <g>
+        <path d="M 576 672 L 624 672 L 618 776 L 582 776 Z" fill="#3A3028"/>
+        <path d="M 576 672 L 624 672 L 618 776 L 582 776 Z" fill="none" stroke="#241D16" stroke-width="2"/>
+        <!-- 补丁 -->
+        <rect x="586" y="720" width="14" height="16" rx="2" fill="#6B5A44" opacity="0.85"/>
+        <line x1="586" y1="728" x2="600" y2="728" stroke="#241D16" stroke-width="1"/>
+        <line x1="593" y1="720" x2="593" y2="736" stroke="#241D16" stroke-width="1"/>
+        <!-- 衣服褶皱 -->
+        <path d="M 590 690 Q 600 700 592 714" fill="none" stroke="#241D16" stroke-width="1.5" opacity="0.6"/>
+      </g>
+      <!-- 右臂（举起持焊枪，伸向仿生人） -->
+      <g>
+        <path d="M 618 680 L 664 646" stroke="#3A3028" stroke-width="13" stroke-linecap="round"/>
+        <path d="M 664 646 L 686 648" stroke="#3A3028" stroke-width="13" stroke-linecap="round"/>
+        <!-- 手（握焊枪） -->
+        <circle cx="686" cy="648" r="7" fill="#D9B08A"/>
+        <!-- 焊枪 -->
+        <line id="torch" x1="686" y1="648" x2="812" y2="596" stroke="#2A3342" stroke-width="6" stroke-linecap="round"/>
+        <line id="torchTip" x1="812" y1="596" x2="826" y2="588" stroke="#5A6B8C" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- 左臂（垂在身侧） -->
+      <g>
+        <path d="M 580 678 L 570 740" stroke="#3A3028" stroke-width="12" stroke-linecap="round"/>
+        <circle cx="570" cy="742" r="6" fill="#D9B08A"/>
+      </g>
+      <!-- 残腿（左腿截断） -->
+      <rect x="588" y="776" width="14" height="30" fill="#151A24"/>
+      <path d="M 586 800 L 604 800 L 604 806 L 586 806 Z" fill="#8B9ED8" opacity="0.6"/>
+      <!-- 拐杖（靠在台边） -->
+      <line x1="632" y1="700" x2="652" y2="808" stroke="#8A6A48" stroke-width="5" stroke-linecap="round"/>
+      <line x1="632" y1="700" x2="644" y2="720" stroke="#8A6A48" stroke-width="4" stroke-linecap="round"/>
+      <rect x="627" y="696" width="11" height="7" rx="3" fill="#4A3622"/>
+      <!-- 暖光轮廓（工作灯） -->
+      <path d="M 576 672 L 580 776" stroke="#E8A85C" stroke-width="1.5" fill="none" opacity="0.35"/>
+    </g>
+
+    <!-- 焊接火花（JS 生成） -->
+    <g id="sparks"></g>
+    <!-- 火花暖光晕 -->
+    <circle id="sparkHalo" cx="826" cy="588" r="50" fill="url(#sparkGlow)" filter="url(#softGlow)" opacity="0"/>
+
+    <!-- 通电辉光扩散（JS 控制） -->
+    <circle id="powerGlow" cx="960" cy="540" r="220" fill="url(#eyeGlowGrad)" filter="url(#softGlow)" opacity="0"/>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">十六岁，他修好了第一台报废的家政仿生人。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 31.1;
+
+  // ---- 插入仿生人（焦黑，未通电） ----
+  var androidGroup = CH.android({burnt: true, awake: false});
+  androidGroup.setAttribute('id', 'android');
+  androidGroup.setAttribute('transform', 'translate(960, 820) scale(1.15)');
+  document.getElementById('androidWrap').appendChild(androidGroup);
+  var eye = androidGroup.querySelector('[data-eye="1"]');
+  var eyeGlow = androidGroup.querySelector('[data-eye-glow="1"]');
+
+  // ---- 焊接火花 ----
+  var sparks = [];
+  (function buildSparks(){
+    var g = document.getElementById('sparks');
+    var NS = 'http://www.w3.org/2000/svg';
+    for (var i = 0; i < 60; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('r', (1 + Math.random() * 2.2).toFixed(1));
+      c.setAttribute('fill', Math.random() < 0.3 ? '#FFFFFF' : (Math.random() < 0.5 ? '#FFB84D' : '#FF8A3C'));
+      g.appendChild(c);
+      sparks.push({
+        el: c,
+        ox: 820 + (Math.random() * 20 - 10),
+        oy: 590,
+        vx: (Math.random() * 150 - 75),
+        vy: -(Math.random() * 200 + 30),
+        ph: Math.random(),
+        sp: 1 + Math.random() * 1.6
+      });
+    }
+  })();
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var SUBTITLES = [
+    {t: 1.0, text: "十六岁，他修好了第一台报废的家政仿生人。"},
+    {t: 5.2, text: "那东西是从战场上退下来的医护型，"},
+    {t: 8.7, text: "外壳烧得焦黑，"},
+    {t: 10.1, text: "内部线路熔了一半。"},
+    {t: 12.0, text: "赞比花了四个月，"},
+    {t: 13.6, text: "从七个废品站淘来零件，"},
+    {t: 16.0, text: "一个一个焊上去。"},
+    {t: 17.6, text: "通电的那天晚上，"},
+    {t: 19.3, text: "仿生人睁开眼睛，"},
+    {t: 21.0, text: "用一种很轻的声音说。"},
+    {t: 23.3, text: "这是哪里？"},
+    {t: 25.0, text: "赞比知道，他成功了。"},
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+
+    // 1) 淡入
+    world.setAttribute('opacity', clamp(t/1.6, 0, 1));
+
+    // 2) 镜头缓慢推近仿生人面部（0-22s）
+    var camE = easeInOut(clamp(t/22, 0, 1));
+    var sc = lerp(1, 1.22, camE);
+    var tx = lerp(0, -40, camE);
+    var ty = lerp(0, 60, camE);
+    world.setAttribute('transform', 'translate(' + tx + ',' + ty + ') scale(' + sc + ')');
+    world.setAttribute('transform-origin', '960 560');
+
+    // 3) 焊接火花（0-18s）
+    var weldOn = t < 18 ? 1 : 0;
+    for (var i = 0; i < sparks.length; i++) {
+      var s = sparks[i];
+      var ph = ((t * s.sp) + s.ph) % 1;
+      var x = s.ox + s.vx * ph * 0.5;
+      var y = s.oy + s.vy * ph * 0.5 + 260 * ph * ph;
+      s.el.setAttribute('cx', x);
+      s.el.setAttribute('cy', y);
+      s.el.setAttribute('opacity', weldOn * (1 - ph) * 0.95);
+    }
+    // 焊枪尖端亮斑 + 火花暖光晕
+    var tipGlow = weldOn * (0.5 + 0.5 * Math.sin(t * 20));
+    document.getElementById('torchTip').setAttribute('opacity', 0.3 + tipGlow * 0.7);
+    document.getElementById('sparkHalo').setAttribute('opacity', weldOn * (0.5 + 0.5 * Math.sin(t * 15)) * 0.6);
+
+    // 4) 通电：眼睛渐亮（18-22s）
+    var on = clamp((t - 18) / 4, 0, 1);
+    var rr = Math.round(lerp(0x2a, 0x4F, on));
+    var gg = Math.round(lerp(0x33, 0xC1, on));
+    var bb = Math.round(lerp(0x42, 0xE0, on));
+    eye.setAttribute('fill', 'rgb(' + rr + ',' + gg + ',' + bb + ')');
+    var breathe = on * 0.55;
+    if (t > 22) breathe = 0.4 + 0.25 * Math.sin(t * 3.2);
+    eyeGlow.setAttribute('opacity', breathe);
+    document.getElementById('powerGlow').setAttribute('opacity', on * 0.7);
+
+    // 5) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 6) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

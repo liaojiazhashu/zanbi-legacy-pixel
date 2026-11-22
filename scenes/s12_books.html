@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S12 四本书</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#070A10}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="space" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#04060A"/>
+    </radialGradient>
+    <linearGradient id="book1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4FC1E0"/>
+      <stop offset="1" stop-color="#1E6F8A"/>
+    </linearGradient>
+    <linearGradient id="book2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8B9ED8"/>
+      <stop offset="1" stop-color="#4A5B8C"/>
+    </linearGradient>
+    <linearGradient id="book3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A8D8E8"/>
+      <stop offset="1" stop-color="#5A8CA0"/>
+    </linearGradient>
+    <linearGradient id="book4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E0E8F0"/>
+      <stop offset="1" stop-color="#6A7A90"/>
+    </linearGradient>
+    <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A2230"/>
+      <stop offset="1" stop-color="#0F141D"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#space)"/>
+
+    <!-- 戴森环背景（两条发光环带） -->
+    <g id="dysonRings" transform="translate(960, 320)">
+      <ellipse cx="0" cy="0" rx="900" ry="120" fill="none" stroke="#4FC1E0" stroke-width="3" opacity="0.4"/>
+      <ellipse cx="0" cy="0" rx="900" ry="120" fill="none" stroke="#4FC1E0" stroke-width="12" opacity="0.15" filter="url(#softGlow)"/>
+      <ellipse cx="0" cy="0" rx="620" ry="86" fill="none" stroke="#8B9ED8" stroke-width="2.5" opacity="0.35"/>
+    </g>
+    <!-- 中央恒星（戴森环内微光） -->
+    <circle cx="960" cy="320" r="70" fill="#4FC1E0" opacity="0.25" filter="url(#softGlow)"/>
+
+    <!-- 星空 -->
+    <g id="stars"></g>
+
+    <!-- 书桌（右下） -->
+    <rect x="0" y="760" width="1920" height="320" fill="url(#desk)"/>
+    <line x1="0" y1="760" x2="1920" y2="760" stroke="#2A3342" stroke-width="2"/>
+
+    <!-- 机械赞比（坐在书桌后，右上） -->
+    <g id="mechZhanbi" transform="translate(1500, 760) scale(1.9)"></g>
+
+    <!-- 四本书（依次浮现，居中偏左） -->
+    <g id="booksGroup">
+      <g id="book1G" transform="translate(420, 600)" opacity="0">
+        <rect x="0" y="-70" width="150" height="210" rx="8" fill="url(#book1)"/>
+        <rect x="-14" y="-70" width="14" height="210" rx="4" fill="#15536A"/>
+        <text x="75" y="0" text-anchor="middle" font-size="30" fill="#04121A" font-weight="700" font-family="'Microsoft YaHei',sans-serif">赞比</text>
+        <rect x="0" y="-70" width="150" height="210" rx="8" fill="#4FC1E0" opacity="0.12" filter="url(#softGlow)"/>
+      </g>
+      <g id="book2G" transform="translate(640, 590)" opacity="0">
+        <rect x="0" y="-70" width="140" height="200" rx="8" fill="url(#book2)"/>
+        <rect x="-13" y="-70" width="13" height="200" rx="4" fill="#38466B"/>
+        <text x="70" y="0" text-anchor="middle" font-size="28" fill="#0B0E14" font-weight="700" font-family="'Microsoft YaHei',sans-serif">碑林</text>
+      </g>
+      <g id="book3G" transform="translate(840, 600)" opacity="0">
+        <rect x="0" y="-70" width="140" height="200" rx="8" fill="url(#book3)"/>
+        <rect x="-13" y="-70" width="13" height="200" rx="4" fill="#416B7C"/>
+        <text x="70" y="0" text-anchor="middle" font-size="28" fill="#0B0E14" font-weight="700" font-family="'Microsoft YaHei',sans-serif">回声</text>
+      </g>
+      <g id="book4G" transform="translate(1050, 580)" opacity="0">
+        <rect x="0" y="-80" width="170" height="240" rx="8" fill="url(#book4)"/>
+        <rect x="-15" y="-80" width="15" height="240" rx="4" fill="#4E5B70"/>
+        <text x="85" y="0" text-anchor="middle" font-size="60" fill="#0B0E14" font-weight="700" font-family="'Microsoft YaHei',sans-serif">谁</text>
+        <rect x="0" y="-80" width="170" height="240" rx="8" fill="#E0E8F0" opacity="0.15" filter="url(#softGlow)"/>
+      </g>
+    </g>
+
+    <!-- 问号粒子（谁 翻开时散开） -->
+    <g id="questionParticles"></g>
+
+    <!-- 批评家文字 -->
+    <g id="critic" opacity="0">
+      <rect x="360" y="300" width="1200" height="180" rx="10" fill="#0B0E14" fill-opacity="0.7"/>
+      <text x="960" y="360" text-anchor="middle" font-size="30" fill="#8B9ED8" font-family="'Microsoft YaHei',sans-serif">赞比先生用了三本书教会我们如何存在，</text>
+      <text x="960" y="420" text-anchor="middle" font-size="30" fill="#8B9ED8" font-family="'Microsoft YaHei',sans-serif">然后用第四本书告诉我们，</text>
+      <text x="960" y="470" text-anchor="middle" font-size="30" fill="#d9e6f0" font-family="'Microsoft YaHei',sans-serif">他自己可能已经不存在了。</text>
+    </g>
+  </g>
+
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">机械赞比是银河系最富有的人。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 52.4;
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  // 机械赞比
+  var mech = CH.mechZhanbi();
+  document.getElementById('mechZhanbi').appendChild(mech);
+
+  // 星空
+  var stars = document.getElementById('stars');
+  for (var i = 0; i < 120; i++) {
+    var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', Math.random() * 1920);
+    c.setAttribute('cy', Math.random() * 700);
+    c.setAttribute('r', Math.random() * 1.6 + 0.4);
+    c.setAttribute('fill', '#8B9ED8');
+    c.setAttribute('opacity', Math.random() * 0.5 + 0.1);
+    stars.appendChild(c);
+  }
+
+  // 问号粒子
+  var qp = document.getElementById('questionParticles');
+  var qArr = [];
+  for (var j = 0; j < 60; j++) {
+    var t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('font-size', 22 + Math.random() * 26);
+    t.setAttribute('fill', '#4FC1E0');
+    t.setAttribute('font-family', "'Microsoft YaHei',sans-serif");
+    t.textContent = '？';
+    t.setAttribute('opacity', 0);
+    qp.appendChild(t);
+    qArr.push({el: t, bx: 1050 + Math.random() * 170, by: 580, vx: (Math.random() - 0.5) * 240, vy: -Math.random() * 140 - 20, ph: Math.random() * Math.PI * 2});
+  }
+
+  var SUBTITLES = [
+    {t: 1.0, text: "机械赞比是银河系最富有的人。"},
+    {t: 4.2, text: "那两层戴森环，才是他的本体。"},
+    {t: 7.4, text: "他写的第一本书叫赞比，"},
+    {t: 9.9, text: "四百七十万字，"},
+    {t: 11.5, text: "平均阅读完成率，"},
+    {t: 13.3, text: "百分之九十七。"},
+    {t: 14.8, text: "第二本叫碑林，第三本叫回声。"},
+    {t: 17.9, text: "从第四本开始，他写不出来了。"},
+    {t: 21.1, text: "三十年，反反复复推倒十几次。"},
+    {t: 24.2, text: "最后出版的时候，书名只有一个字，谁。"},
+    {t: 28.2, text: "全书只有三千多个问题。"},
+    {t: 30.9, text: "我是谁？"},
+    {t: 31.8, text: "我现在说话，是谁在说话？"},
+    {t: 34.6, text: "如果我记得赞比的一切，我是不是就是赞比？"},
+    {t: 39.6, text: "一个批评家写道，"},
+    {t: 41.1, text: "赞比先生用了三本书教会我们如何存在，"},
+    {t: 44.7, text: "然后用第四本书告诉我们，"},
+    {t: 47.1, text: "他自己可能已经不存在了。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 书本浮现
+    var b1 = easeInOut(clamp((t - 7.4) / 1.8, 0, 1));
+    var b2 = easeInOut(clamp((t - 14.8) / 1.8, 0, 1));
+    var b3 = easeInOut(clamp((t - 15.4) / 1.8, 0, 1));
+    // 第四本：17.9-24.2 反复推倒（闪烁），24.2 正式浮现
+    var flick = (Math.sin(t * 6) + 1) / 2; // 0-1
+    var writing = clamp((t - 17.9) / 6.3, 0, 1); // 17.9-24.2
+    var b4 = clamp((t - 24.2) / 2, 0, 1);
+    var b4final = Math.min(1, b4 + writing * flick * 0.15);
+    document.getElementById('book1G').setAttribute('opacity', b1);
+    document.getElementById('book2G').setAttribute('opacity', b2);
+    document.getElementById('book3G').setAttribute('opacity', b3);
+    document.getElementById('book4G').setAttribute('opacity', Math.max(b4final, b4));
+
+    // 问号粒子（28.2s 后散开）
+    var qon = clamp((t - 28.2) / 1.5, 0, 1);
+    for (var k = 0; k < qArr.length; k++) {
+      var q = qArr[k];
+      var px = q.bx + q.vx * (t - 28.2);
+      var py = q.by + q.vy * (t - 28.2) + 40 * Math.sin((t - 28.2) * 1.5 + q.ph);
+      q.el.setAttribute('x', px);
+      q.el.setAttribute('y', py);
+      q.el.setAttribute('opacity', qon * (1 - clamp((t - 28.2 - 8) / 3, 0, 1)));
+    }
+
+    // 批评家文字（39.6s 后）
+    document.getElementById('critic').setAttribute('opacity', easeInOut(clamp((t - 39.6) / 1.5, 0, 1)));
+
+    // 镜头缓慢推近
+    var sc = 1 + 0.06 * easeInOut(clamp(t / SCENE_DURATION, 0, 1));
+    world.setAttribute('transform', 'scale(' + sc + ')');
+    world.setAttribute('transform-origin', '960 540');
+
+    // 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) { if (t >= SUBTITLES[s].t) cur = SUBTITLES[s]; }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) { subText.textContent = cur.text; subText.setAttribute('data-cur', cur.text); }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+  setTime(0);
+</script>
+</body>
+</html>

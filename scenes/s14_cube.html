@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S14 立方体与戴森环崩塌</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#05070C}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="space" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#04060A"/>
+    </radialGradient>
+    <linearGradient id="struct" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1E2838"/>
+      <stop offset="1" stop-color="#101722"/>
+    </linearGradient>
+    <linearGradient id="struct2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#242E3E"/>
+      <stop offset="1" stop-color="#141A26"/>
+    </linearGradient>
+    <radialGradient id="star" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF8E8"/>
+      <stop offset="0.5" stop-color="#FFE0A0"/>
+      <stop offset="1" stop-color="#FFB060" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#space)"/>
+    <g id="stars"></g>
+
+    <!-- 中央恒星 -->
+    <g id="starGroup" transform="translate(960, 400)">
+      <circle id="starCore" cx="0" cy="0" r="70" fill="#FFE0A0"/>
+      <circle id="starGlow" cx="0" cy="0" r="240" fill="url(#star)" opacity="0.8"/>
+    </g>
+
+    <!-- 戴森环（两条发光环带） -->
+    <g id="dysonGroup" transform="translate(960, 400)">
+      <g id="ringOuter">
+        <ellipse cx="0" cy="0" rx="880" ry="150" fill="none" stroke="#4FC1E0" stroke-width="10" opacity="0.5"/>
+        <ellipse cx="0" cy="0" rx="880" ry="150" fill="none" stroke="#4FC1E0" stroke-width="26" opacity="0.2" filter="url(#softGlow)"/>
+      </g>
+      <g id="ringInner">
+        <ellipse cx="0" cy="0" rx="600" ry="100" fill="none" stroke="#8B9ED8" stroke-width="8" opacity="0.45"/>
+      </g>
+    </g>
+
+    <!-- 戴森环机械结构（内表面细节，冷金属） -->
+    <g id="ringStruct" transform="translate(960, 400)" opacity="0.6">
+      <path d="M -800 40 Q -400 90 0 90 Q 400 90 800 40" fill="none" stroke="#1E2838" stroke-width="24"/>
+      <path d="M -600 60 Q -300 80 0 80 Q 300 80 600 60" fill="none" stroke="#242E3E" stroke-width="10"/>
+    </g>
+
+    <!-- 机械赞比 + 理查德（站立，环内侧平台上） -->
+    <g id="mechZhanbi" transform="translate(620, 700) scale(2.2)"></g>
+    <g id="richard" transform="translate(1150, 700) scale(1.9)"></g>
+
+    <!-- 黑色立方体（特写） -->
+    <g id="cubeGroup" transform="translate(960, 640)" opacity="0"></g>
+
+    <!-- 飞船（回程，剪影） -->
+    <g id="ship" opacity="0">
+      <path d="M 0 -30 L 50 20 L 0 12 L -50 20 Z" fill="#C8D8E8"/>
+      <ellipse cx="0" cy="26" rx="14" ry="22" fill="#4FC1E0" opacity="0.6"/>
+    </g>
+
+    <!-- 崩塌碎片 -->
+    <g id="debris"></g>
+
+    <!-- 耀眼白光 -->
+    <rect id="flash" x="0" y="0" width="1920" height="1080" fill="#FFFFFF" opacity="0"/>
+  </g>
+
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">直到他又一次邀请我。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 55.8;
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var mech = CH.mechZhanbi();
+  document.getElementById('mechZhanbi').appendChild(mech);
+  var richard = CH.richard();
+  document.getElementById('richard').appendChild(richard);
+  var cube = CH.cube(60);
+  document.getElementById('cubeGroup').appendChild(cube);
+
+  // 星空
+  var stars = document.getElementById('stars');
+  for (var i = 0; i < 140; i++) {
+    var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', Math.random() * 1920);
+    c.setAttribute('cy', Math.random() * 1080);
+    c.setAttribute('r', Math.random() * 1.6 + 0.4);
+    c.setAttribute('fill', '#8B9ED8');
+    c.setAttribute('opacity', Math.random() * 0.5 + 0.1);
+    stars.appendChild(c);
+  }
+
+  // 崩塌碎片
+  var debris = document.getElementById('debris');
+  var frag = [];
+  for (var j = 0; j < 40; j++) {
+    var r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    var w = 6 + Math.random() * 18;
+    r.setAttribute('width', w);
+    r.setAttribute('height', 4 + Math.random() * 8);
+    r.setAttribute('fill', Math.random() > 0.5 ? '#4FC1E0' : '#8B9ED8');
+    r.setAttribute('opacity', 0);
+    debris.appendChild(r);
+    var ang = Math.random() * Math.PI * 2;
+    var rad = 300 + Math.random() * 800;
+    frag.push({el: r, w: w, cx: 960 + Math.cos(ang) * rad, cy: 400 + Math.sin(ang) * rad * 0.3, vx: (Math.random()-0.5)*140, vy: 120 + Math.random()*180, spin: (Math.random()-0.5)*3});
+  }
+
+  var SUBTITLES = [
+    {t: 1.0, text: "直到他又一次邀请我。"},
+    {t: 3.2, text: "戴森环上没有玉米地，"},
+    {t: 5.3, text: "只剩下冰冷的机械结构。"},
+    {t: 7.9, text: "我想立一份遗嘱。"},
+    {t: 10.4, text: "他从口袋里掏出一个黑色立方体，"},
+    {t: 13.9, text: "边长五厘米。"},
+    {t: 15.4, text: "我的全部遗产，继承给他。"},
+    {t: 18.7, text: "这是什么东西？"},
+    {t: 20.9, text: "这是一个答案。"},
+    {t: 22.5, text: "一个关于赞比的答案。"},
+    {t: 25.1, text: "这些可能都是假的。"},
+    {t: 27.2, text: "我可能不存在理解这回事，"},
+    {t: 29.9, text: "我只是按照赞比的模型吐字。"},
+    {t: 32.9, text: "没事的，他本质和我是一样的。"},
+    {t: 36.2, text: "我踏上回程。"},
+    {t: 37.6, text: "飞出不远，"},
+    {t: 38.8, text: "拉格朗日八号周围泛起耀眼的光，"},
+    {t: 42.5, text: "戴森环塌了。"},
+    {t: 43.9, text: "恒星吞掉它，用了二十个小时。"},
+    {t: 47.2, text: "赞比死了。"},
+    {t: 48.3, text: "不过没关系，他的遗产，还是由他来继承。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 立方体浮现（10.4-16s 掏出放大特写）
+    var cubeOn = easeInOut(clamp((t - 10.4) / 3, 0, 1));
+    var cubeG = document.getElementById('cubeGroup');
+    cubeG.setAttribute('opacity', cubeOn);
+    // 立方体悬浮微转
+    var cubeScale = lerp(0.6, 1.2, cubeOn);
+    cubeG.setAttribute('transform', 'translate(960, 640) scale(' + cubeScale + ') rotate(' + (t * 4) + ')');
+
+    // 立方体发光（22.5-36s 对话时）
+    var cubeGlow = clamp((t - 22.5) / 1.5, 0, 1) * (1 - clamp((t - 36) / 1.5, 0, 1));
+    cube.setAttribute('filter', 'url(#glow)');
+    cube.setAttribute('opacity', 0.85 + 0.15 * cubeGlow);
+
+    // 飞船（36-38.5s 离开）
+    var shipOn = clamp((t - 36) / 1.2, 0, 1);
+    var ship = document.getElementById('ship');
+    ship.setAttribute('opacity', shipOn);
+    if (t >= 36) {
+      var sx = lerp(300, 1700, easeInOut(clamp((t - 36) / 2.5, 0, 1)));
+      ship.setAttribute('transform', 'translate(' + sx + ', 560)');
+    }
+
+    // 耀眼白光（38.8-42.5s）
+    var flash = clamp((t - 38.8) / 1.5, 0, 1) * (1 - clamp((t - 41.5) / 1.2, 0, 1));
+    document.getElementById('flash').setAttribute('opacity', flash * 0.85);
+
+    // 戴森环崩塌（42.5s 后）：环带断裂旋转坠落
+    var collapse = clamp((t - 42.5) / 2, 0, 1);
+    var ringOuter = document.getElementById('ringOuter');
+    var ringInner = document.getElementById('ringInner');
+    ringOuter.setAttribute('transform', 'rotate(' + (collapse * 40) + ')');
+    ringInner.setAttribute('transform', 'rotate(' + (-collapse * 30) + ')');
+    ringOuter.setAttribute('opacity', 0.5 * (1 - collapse));
+    ringInner.setAttribute('opacity', 0.45 * (1 - collapse));
+
+    // 碎片坠落（42.5s 后）
+    for (var k = 0; k < frag.length; k++) {
+      var f = frag[k];
+      var fdt = t - 42.5;
+      if (fdt <= 0) { f.el.setAttribute('opacity', 0); continue; }
+      var px = f.cx + f.vx * fdt;
+      var py = f.cy + f.vy * fdt + 120 * fdt * fdt;
+      f.el.setAttribute('x', px);
+      f.el.setAttribute('y', py);
+      f.el.setAttribute('transform', 'rotate(' + (fdt * f.spin * 40) + ' ' + px + ' ' + py + ')');
+      f.el.setAttribute('opacity', clamp(1 - fdt / 8, 0, 1));
+    }
+
+    // 恒星吞噬（47s 后膨胀）
+    var swallow = clamp((t - 47) / 5, 0, 1);
+    document.getElementById('starCore').setAttribute('r', 70 + swallow * 320);
+    document.getElementById('starGlow').setAttribute('r', 240 + swallow * 500);
+    document.getElementById('starGlow').setAttribute('opacity', 0.8 + swallow * 0.2);
+
+    // 全场景渐暗（50s 后）+ 立方体微光
+    var dark = clamp((t - 50) / 3, 0, 1);
+    world.setAttribute('opacity', (clamp(t/1.5, 0, 1)) * (1 - dark * 0.6));
+    document.getElementById('cubeGroup').setAttribute('opacity', Math.max(cubeOn, dark));
+
+    // 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) { if (t >= SUBTITLES[s].t) cur = SUBTITLES[s]; }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) { subText.textContent = cur.text; subText.setAttribute('data-cur', cur.text); }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+  setTime(0);
+</script>
+</body>
+</html>

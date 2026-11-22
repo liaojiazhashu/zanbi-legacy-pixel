@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S08 K-7749 矿坑</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#05070C}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="pitGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#05070C"/>
+      <stop offset="0.6" stop-color="#0A0E14"/>
+      <stop offset="0.85" stop-color="#10131A"/>
+      <stop offset="1" stop-color="#181C24"/>
+    </radialGradient>
+    <radialGradient id="rockEdge" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.7" stop-color="#181C24"/>
+      <stop offset="0.92" stop-color="#242A34"/>
+      <stop offset="1" stop-color="#0D1016"/>
+    </radialGradient>
+    <linearGradient id="planetSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#030409"/>
+      <stop offset="1" stop-color="#070A10"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#planetSky)"/>
+
+    <!-- 星空 -->
+    <g id="stars"></g>
+
+    <!-- 矿坑（俯视，中心 960 540） -->
+    <g id="pitGroup">
+      <!-- 岩石边缘 -->
+      <circle cx="960" cy="540" r="520" fill="url(#rockEdge)"/>
+      <!-- 岩石纹理（裂痕） -->
+      <g stroke="#0D1016" stroke-width="2" opacity="0.7">
+        <path d="M 960 20 L 900 120 L 920 200"/>
+        <path d="M 620 540 L 720 500 L 800 560"/>
+        <path d="M 1300 540 L 1200 580 L 1140 660"/>
+        <path d="M 960 1060 L 1010 960 L 980 880"/>
+      </g>
+      <!-- 矿坑口（深色内壁） -->
+      <circle cx="960" cy="540" r="400" fill="url(#pitGrad)"/>
+
+      <!-- 螺旋名字环（JS 生成） -->
+      <g id="nameRings"></g>
+
+      <!-- 矿坑中心（无尽深渊，暗） -->
+      <circle cx="960" cy="540" r="40" fill="#020304"/>
+    </g>
+
+    <!-- 仿生人光点（矿坑外圈） -->
+    <g id="androids"></g>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">克隆赞比是银河系最富有的人，也是个疯子。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 37.6;
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // ---- 星空 ----
+  (function stars(){
+    var g = document.getElementById('stars');
+    for (var i = 0; i < 180; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', Math.random() * 1920);
+      c.setAttribute('cy', Math.random() * 1080);
+      c.setAttribute('r', (Math.random() * 1.5).toFixed(1));
+      c.setAttribute('fill', '#8B9ED8');
+      c.setAttribute('opacity', (Math.random() * 0.5 + 0.05).toFixed(2));
+      g.appendChild(c);
+    }
+  })();
+
+  // ---- 螺旋名字（多层环，每环发光名字短线） ----
+  var names = [];
+  (function nameRings(){
+    var g = document.getElementById('nameRings');
+    var rings = 12;
+    for (var r = 0; r < rings; r++) {
+      var radius = 90 + r * 26; // 90 -> 376
+      var count = Math.floor(2 * Math.PI * radius / 26); // 沿环密度
+      var baseAngle = r * 0.42; // 每环角度偏移 = 螺旋感
+      for (var i = 0; i < count; i++) {
+        var ang = baseAngle + (i / count) * Math.PI * 2;
+        var x = 960 + Math.cos(ang) * radius;
+        var y = 540 + Math.sin(ang) * radius;
+        // 名字短线（垂直于半径方向 = 沿切线，水平感）
+        var len = 6 + Math.random() * 12;
+        var silver = Math.random() < 0.75;
+        var ln = document.createElementNS(NS, 'line');
+        var dx = -Math.sin(ang), dy = Math.cos(ang);
+        ln.setAttribute('x1', x - dx * len / 2); ln.setAttribute('y1', y - dy * len / 2);
+        ln.setAttribute('x2', x + dx * len / 2); ln.setAttribute('y2', y + dy * len / 2);
+        ln.setAttribute('stroke', silver ? '#D9E6F0' : '#4FC1E0');
+        ln.setAttribute('stroke-width', '1.4');
+        ln.setAttribute('opacity', '0');
+        g.appendChild(ln);
+        names.push({el: ln, r: radius, ang: ang, silver: silver});
+      }
+    }
+  })();
+
+  // ---- 仿生人光点（矿坑外圈，象征六万台工程仿生人） ----
+  var androids = [];
+  (function androidDots(){
+    var g = document.getElementById('androids');
+    for (var i = 0; i < 120; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var rad = 460 + Math.random() * 60;
+      var x = 960 + Math.cos(ang) * rad;
+      var y = 540 + Math.sin(ang) * rad;
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y);
+      c.setAttribute('r', (1.5 + Math.random() * 2).toFixed(1));
+      c.setAttribute('fill', '#4FC1E0');
+      c.setAttribute('opacity', '0');
+      g.appendChild(c);
+      androids.push({el: c, ang: ang, rad: rad});
+    }
+  })();
+
+  var SUBTITLES = [
+    {t: 1.0, text: "克隆赞比是银河系最富有的人，也是个疯子。"},
+    {t: 5.5, text: "五十岁那年，"},
+    {t: 6.7, text: "他买下一颗废弃的矿业星球，"},
+    {t: 9.7, text: "K-7749。"},
+    {t: 11.2, text: "他派出六万台工程仿生人，"},
+    {t: 13.9, text: "在每个矿坑的内壁上，"},
+    {t: 16.1, text: "刻名字。"},
+    {t: 16.9, text: "激光蚀刻，"},
+    {t: 18.0, text: "从坑底开始，"},
+    {t: 19.3, text: "螺旋向上，"},
+    {t: 20.4, text: "每一个名字填充上铱钽合金。"},
+    {t: 23.3, text: "六万台仿生人不分昼夜，刻了两年。"},
+    {t: 27.0, text: "截止到昨天，十七亿三千六百万个。"},
+    {t: 30.6, text: "这是去年，银河系中全部死去的人。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 1) 名字逐圈亮起（从外向内，象征从坑底螺旋向上已刻满）—— 4-24s 由外向内亮
+    for (var i = 0; i < names.length; i++) {
+      var n = names[i];
+      // 外圈先亮（刻字从坑底=中心开始，但镜头俯视，先亮外圈引导视线）
+      var ringT = 4 + (n.r - 90) / 286 * 20; // 4 -> 24s
+      var on = clamp((t - ringT) / 1.2, 0, 1);
+      var twinkle = 0.55 + 0.45 * Math.sin(t * 2 + n.ang * 3);
+      n.el.setAttribute('opacity', on * twinkle);
+      if (n.silver) {
+        n.el.setAttribute('filter', on > 0.3 ? 'url(#glow)' : 'none');
+      }
+    }
+
+    // 2) 仿生人光点（11s 后渐显，微微移动）
+    for (var i = 0; i < androids.length; i++) {
+      var a = androids[i];
+      var on = clamp((t - 11) / 3, 0, 1);
+      var tw = 0.3 + 0.7 * Math.abs(Math.sin(t * 1.5 + a.ang * 5));
+      a.el.setAttribute('opacity', on * tw);
+      a.el.setAttribute('cx', 960 + Math.cos(a.ang + t * 0.05) * a.rad);
+      a.el.setAttribute('cy', 540 + Math.sin(a.ang + t * 0.05) * a.rad);
+    }
+
+    // 3) 镜头下潜（4-24s 螺旋缩放）
+    var dive = easeInOut(clamp((t - 4) / 20, 0, 1));
+    var pit = document.getElementById('pitGroup');
+    var sc = lerp(1, 2.2, dive);
+    var rot = lerp(0, 24, dive);
+    pit.setAttribute('transform', 'translate(960,540) scale(' + sc + ') rotate(' + rot + ') translate(-960,-540)');
+
+    // 4) 台词时（27-30s）名字光带流动
+    if (t > 27) {
+      pit.setAttribute('transform', 'translate(960,540) scale(2.2) rotate(' + (24 + (t - 27) * 8) + ') translate(-960,-540)');
+    }
+
+    // 5) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 6) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>章节卡 上</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#05070C}
+  svg{display:block}
+  .loc{font-family:'Microsoft YaHei','PingFang SC',sans-serif}
+  .year{font-family:'Consolas','Microsoft YaHei',sans-serif;font-weight:300}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.45" r="0.85">
+      <stop offset="0" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#04060A"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#bg)"/>
+
+    <!-- 英伦庄园穹顶剪影（背景） -->
+    <g id="manor" opacity="0.5">
+      <!-- 穹顶 -->
+      <path d="M 700 520 Q 960 300 1220 520" fill="none" stroke="#242E3E" stroke-width="3"/>
+      <!-- 尖顶 -->
+      <path d="M 960 300 L 960 240" stroke="#242E3E" stroke-width="3"/>
+      <circle cx="960" cy="235" r="6" fill="#4FC1E0" opacity="0.6"/>
+      <!-- 庄园主体 -->
+      <rect x="720" y="520" width="480" height="160" fill="#141A26"/>
+      <!-- 尖拱高窗（发光） -->
+      <g fill="#4FC1E0" opacity="0.25">
+        <path d="M 780 620 q 20 -50 40 0 Z"/>
+        <path d="M 900 620 q 20 -60 40 0 Z"/>
+        <path d="M 1020 620 q 20 -50 40 0 Z"/>
+      </g>
+      <!-- 立柱 -->
+      <g stroke="#1E2838" stroke-width="6">
+        <line x1="720" y1="520" x2="720" y2="680"/>
+        <line x1="1200" y1="520" x2="1200" y2="680"/>
+      </g>
+      <!-- 地面 -->
+      <rect x="600" y="680" width="720" height="20" fill="#0F141D"/>
+    </g>
+
+    <!-- 体积光柱 -->
+    <g id="lightBeams" opacity="0.35">
+      <polygon points="880,240 840,760 900,760" fill="url(#beam)"/>
+      <polygon points="960,230 940,760 1000,760" fill="url(#beam)"/>
+      <polygon points="1040,240 1010,760 1060,760" fill="url(#beam)"/>
+    </g>
+
+    <!-- 尘埃粒子 -->
+    <g id="dust"></g>
+
+    <!-- 章节标记 -->
+    <text id="chapterMark" x="120" y="150" font-size="44" fill="#4FC1E0" class="loc" opacity="0">上</text>
+    <line id="chapterLine" x1="120" y1="170" x2="320" y2="170" stroke="#4FC1E0" stroke-width="1.5" opacity="0"/>
+
+    <!-- 年份（逐位浮现） -->
+    <g id="yearGroup" class="year" fill="#4FC1E0" filter="url(#glow)" text-anchor="middle" font-size="150">
+      <text id="d0" x="810" y="580" opacity="0">2</text>
+      <text id="d1" x="900" y="580" opacity="0">0</text>
+      <text id="d2" x="990" y="580" opacity="0">4</text>
+      <text id="d3" x="1080" y="580" opacity="0">9</text>
+    </g>
+
+    <!-- 地点 -->
+    <text id="location" x="960" y="700" text-anchor="middle" font-size="40" fill="#8B9ED8" class="loc" opacity="0">英国 · 哈特菲尔德庄园</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script>
+  window.SCENE_DURATION = 6;
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  // 尘埃粒子
+  var dust = document.getElementById('dust');
+  var dustArr = [];
+  for (var i = 0; i < 40; i++) {
+    var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', Math.random() * 1920);
+    c.setAttribute('cy', Math.random() * 1080);
+    c.setAttribute('r', Math.random() * 2 + 0.5);
+    c.setAttribute('fill', '#4FC1E0');
+    c.setAttribute('opacity', Math.random() * 0.3);
+    dust.appendChild(c);
+    dustArr.push({el: c, x: Math.random() * 1920, y: Math.random() * 1080, vy: 8 + Math.random() * 20});
+  }
+
+  window.setTime = function(t){
+    // 章节标记 0-0.8s 浮现
+    document.getElementById('chapterMark').setAttribute('opacity', clamp(t/0.8, 0, 1));
+    document.getElementById('chapterLine').setAttribute('opacity', clamp((t-0.4)/0.4, 0, 1));
+
+    // 年份逐位浮现（1s 起，每位间隔 0.6s）
+    for (var d = 0; d < 4; d++) {
+      var on = clamp((t - 1 - d * 0.6) / 0.5, 0, 1);
+      document.getElementById('d' + d).setAttribute('opacity', easeInOut(on));
+    }
+
+    // 地点 3.6s 浮现
+    document.getElementById('location').setAttribute('opacity', clamp((t - 3.6) / 0.8, 0, 1));
+
+    // 年份呼吸发光
+    var breathe = 0.85 + 0.15 * Math.sin((t - 3) * 1.8);
+    document.getElementById('yearGroup').setAttribute('opacity', breathe);
+
+    // 尘埃上浮
+    for (var k = 0; k < dustArr.length; k++) {
+      var p = dustArr[k];
+      var py = p.y - p.vy * t;
+      if (py < -10) py += 1090;
+      p.el.setAttribute('cy', py);
+    }
+
+    // 渐暗
+    var fo = clamp((t - 5) / 1, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+  setTime(0);
+</script>
+</body>
+</html>

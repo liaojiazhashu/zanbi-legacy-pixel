@@ -1,0 +1,40 @@
+# ===== 渲染帧缓存（可由脚本重新生成，体积巨大）=====
+frames/
+frames_px/
+frames_pixel/
+_ref_frames/
+_ref2_frames/
+ref_frames/
+_anim_frames/
+
+# ===== 音频中间产物（clips 由 render_pixels.py 从 audio/ 重新生成）=====
+clips/
+
+# ===== Python 缓存 =====
+__pycache__/
+*.pyc
+
+# ===== 下载的第三方仓库（可重新下载）=====
+lpc_repo/
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 临时/调试脚本（_ 前缀的过程脚本，保留主代码）=====
+# 注意：以下脚本是过程产物，核心逻辑已沉淀到主代码+笔记，可忽略
+_check_*.py
+_find_*.py
+_try_*.py
+_test_*.py
+_analyze_*.py
+_gen_replica_js.py
+_composite_*.py
+_download_*.py
+_download_hair_all.py
+_download_rest.py
+_pixel_qa.py
+_ichiwatashi_*.py
+_remap_sprite.py
+_fix_pitch.py

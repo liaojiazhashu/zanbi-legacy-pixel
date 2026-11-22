@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S02 难民营</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#141821}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 阴天天空（多层纵深） -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141821"/>
+      <stop offset="0.5" stop-color="#1A202A"/>
+      <stop offset="0.78" stop-color="#232B36"/>
+      <stop offset="1" stop-color="#2A333F"/>
+    </linearGradient>
+    <!-- 地平线冷光（战争阴霾中的一线天光） -->
+    <linearGradient id="horizonGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8B9ED8" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#8B9ED8" stop-opacity="0"/>
+    </linearGradient>
+    <!-- 地面泥泞 -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1C222B"/>
+      <stop offset="0.5" stop-color="#161B22"/>
+      <stop offset="1" stop-color="#0E1218"/>
+    </linearGradient>
+    <!-- 水洼反光（映天） -->
+    <linearGradient id="puddleSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A4A5E" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#1A222C" stop-opacity="0.3"/>
+    </linearGradient>
+    <!-- 垃圾堆锈金属 -->
+    <linearGradient id="rustMetal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5A3E28"/>
+      <stop offset="0.55" stop-color="#3E2C1C"/>
+      <stop offset="1" stop-color="#241A12"/>
+    </linearGradient>
+    <!-- 帐篷帆布 -->
+    <linearGradient id="tentCloth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1E2530"/>
+      <stop offset="1" stop-color="#0D1118"/>
+    </linearGradient>
+    <!-- 发光滤镜 -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <!-- 天空 -->
+    <rect x="0" y="0" width="1920" height="660" fill="url(#sky)"/>
+    <!-- 地平线冷光带 -->
+    <rect x="0" y="520" width="1920" height="140" fill="url(#horizonGlow)"/>
+
+    <!-- 云层（多层，远淡近浓） -->
+    <g id="clouds">
+      <!-- 远云（淡，扁平） -->
+      <g fill="#232B36" opacity="0.5">
+        <path d="M 80 150 Q 200 120 340 150 Q 420 135 500 150 L 500 170 L 80 170 Z"/>
+        <path d="M 1100 130 Q 1260 105 1440 130 Q 1520 115 1600 130 L 1600 150 L 1100 150 Z"/>
+        <path d="M 560 185 Q 700 165 820 185 L 820 200 L 560 200 Z" opacity="0.7"/>
+      </g>
+      <!-- 近云（浓，有体积） -->
+      <g fill="#1A202A" opacity="0.75">
+        <path d="M 120 210 Q 260 175 420 205 Q 520 190 620 210 Q 500 235 360 230 Q 220 240 120 210 Z"/>
+        <path d="M 1300 230 Q 1460 195 1620 225 Q 1720 210 1800 230 Q 1680 258 1540 252 Q 1400 262 1300 230 Z"/>
+      </g>
+      <!-- 云层高光（受地平线冷光） -->
+      <g fill="#8B9ED8" opacity="0.10">
+        <path d="M 150 195 Q 300 170 440 195 L 440 205 Q 300 180 150 205 Z"/>
+        <path d="M 1330 215 Q 1480 190 1630 215 L 1630 225 Q 1480 200 1330 225 Z"/>
+      </g>
+    </g>
+
+    <!-- 远景难民营（帐篷群 + 炊烟） -->
+    <g id="farCamp">
+      <!-- 帐篷群（远近层次） -->
+      <g fill="url(#tentCloth)">
+        <polygon points="100,600 190,470 280,600"/>
+        <polygon points="270,600 360,445 450,600"/>
+        <polygon points="440,600 520,495 600,600"/>
+        <polygon points="590,600 680,460 770,600"/>
+        <polygon points="760,600 830,505 900,600"/>
+        <polygon points="1040,600 1120,455 1200,600"/>
+        <polygon points="1190,600 1270,475 1350,600"/>
+        <polygon points="1340,600 1420,450 1500,600"/>
+        <polygon points="1490,600 1570,480 1650,600"/>
+        <polygon points="1640,600 1730,460 1820,600"/>
+        <!-- 方形帐篷（补充） -->
+        <rect x="200" y="520" width="70" height="80" opacity="0.85"/>
+        <rect x="1180" y="525" width="70" height="75" opacity="0.85"/>
+      </g>
+      <!-- 帐篷轮廓线（帆布褶皱感） -->
+      <g stroke="#242E3E" stroke-width="1.5" fill="none" opacity="0.5">
+        <path d="M 190 470 L 225 600 M 360 445 L 405 600 M 680 460 L 725 600 M 1120 455 L 1160 600 M 1420 450 L 1455 600 M 1730 460 L 1765 600"/>
+      </g>
+      <!-- 炊烟（细，缓缓升腾） -->
+      <g id="smoke" fill="none" stroke="#2A333F" stroke-width="5" stroke-linecap="round" opacity="0.5">
+        <path d="M 405 430 Q 415 400 405 370 Q 395 340 410 310"/>
+        <path d="M 1455 435 Q 1465 405 1455 375 Q 1445 345 1460 315"/>
+      </g>
+    </g>
+
+    <!-- 铁丝网（远景防线，带倒刺） -->
+    <g id="fence" stroke="#242E3E" stroke-width="2" opacity="0.8">
+      <line x1="0" y1="600" x2="1920" y2="600"/>
+      <line x1="0" y1="584" x2="1920" y2="584"/>
+      <!-- 立柱 -->
+      <g stroke="#1E2530" stroke-width="4">
+        <line x1="80" y1="552" x2="80" y2="620"/>
+        <line x1="280" y1="552" x2="280" y2="620"/>
+        <line x1="480" y1="552" x2="480" y2="620"/>
+        <line x1="680" y1="552" x2="680" y2="620"/>
+        <line x1="880" y1="552" x2="880" y2="620"/>
+        <line x1="1080" y1="552" x2="1080" y2="620"/>
+        <line x1="1280" y1="552" x2="1280" y2="620"/>
+        <line x1="1480" y1="552" x2="1480" y2="620"/>
+        <line x1="1680" y1="552" x2="1680" y2="620"/>
+        <line x1="1880" y1="552" x2="1880" y2="620"/>
+      </g>
+      <!-- 菱形网 -->
+      <g opacity="0.4">
+        <line x1="80" y1="584" x2="180" y2="560"/>
+        <line x1="180" y1="584" x2="280" y2="560"/>
+        <line x1="280" y1="584" x2="380" y2="560"/>
+        <line x1="380" y1="584" x2="480" y2="560"/>
+        <line x1="480" y1="584" x2="580" y2="560"/>
+        <line x1="580" y1="584" x2="680" y2="560"/>
+        <line x1="680" y1="584" x2="780" y2="560"/>
+        <line x1="780" y1="584" x2="880" y2="560"/>
+        <line x1="880" y1="584" x2="980" y2="560"/>
+        <line x1="980" y1="584" x2="1080" y2="560"/>
+        <line x1="1080" y1="584" x2="1180" y2="560"/>
+        <line x1="1180" y1="584" x2="1280" y2="560"/>
+        <line x1="1280" y1="584" x2="1380" y2="560"/>
+        <line x1="1380" y1="584" x2="1480" y2="560"/>
+        <line x1="1480" y1="584" x2="1580" y2="560"/>
+        <line x1="1580" y1="584" x2="1680" y2="560"/>
+        <line x1="1680" y1="584" x2="1780" y2="560"/>
+        <line x1="1780" y1="584" x2="1880" y2="560"/>
+      </g>
+      <!-- 倒刺 -->
+      <g fill="#242E3E" stroke="none">
+        <circle cx="280" cy="560" r="3"/><circle cx="680" cy="560" r="3"/>
+        <circle cx="1080" cy="560" r="3"/><circle cx="1480" cy="560" r="3"/>
+      </g>
+    </g>
+
+    <!-- 地面 -->
+    <rect x="0" y="660" width="1920" height="420" fill="url(#ground)"/>
+    <!-- 泥泞水洼（反光映天） -->
+    <g id="puddles" fill="url(#puddleSheen)">
+      <ellipse cx="420" cy="820" rx="150" ry="18"/>
+      <ellipse cx="1150" cy="880" rx="180" ry="20"/>
+      <ellipse cx="1650" cy="800" rx="100" ry="13"/>
+      <ellipse cx="80" cy="930" rx="90" ry="11"/>
+    </g>
+    <!-- 水洼边缘高光 -->
+    <g stroke="#4A5A6E" stroke-width="1.5" fill="none" opacity="0.4">
+      <ellipse cx="420" cy="820" rx="150" ry="18"/>
+      <ellipse cx="1150" cy="880" rx="180" ry="20"/>
+    </g>
+    <!-- 车辙（深陷 + 高光） -->
+    <g id="ruts">
+      <path d="M 0 760 Q 400 785 800 755 Q 1300 728 1920 775" stroke="#0B0E14" stroke-width="10" fill="none" opacity="0.6"/>
+      <path d="M 0 800 Q 500 825 1000 795 Q 1500 770 1920 815" stroke="#0B0E14" stroke-width="10" fill="none" opacity="0.5"/>
+      <path d="M 0 760 Q 400 785 800 755 Q 1300 728 1920 775" stroke="#2A333F" stroke-width="2" fill="none" opacity="0.3"/>
+    </g>
+
+    <!-- 垃圾堆（锈色金属，插画级） -->
+    <g id="debris">
+      <!-- 左垃圾堆 -->
+      <g>
+        <!-- 大锈块（渐变 + 高光） -->
+        <rect x="300" y="840" width="95" height="62" rx="4" fill="url(#rustMetal)"/>
+        <rect x="300" y="840" width="95" height="8" fill="#6A4A30" opacity="0.6"/>
+        <rect x="360" y="810" width="72" height="42" rx="3" fill="url(#rustMetal)"/>
+        <rect x="360" y="810" width="72" height="6" fill="#7A5838" opacity="0.5"/>
+        <rect x="425" y="870" width="62" height="34" rx="3" fill="#241A12"/>
+        <!-- 齿轮（带齿） -->
+        <g transform="translate(478 830)">
+          <circle r="22" fill="#3E2C1C" stroke="#5A3E28" stroke-width="4"/>
+          <circle r="10" fill="#241A12"/>
+          <g stroke="#5A3E28" stroke-width="3">
+            <line x1="0" y1="-22" x2="0" y2="-26"/><line x1="0" y1="22" x2="0" y2="26"/>
+            <line x1="-22" y1="0" x2="-26" y2="0"/><line x1="22" y1="0" x2="26" y2="0"/>
+            <line x1="-15" y1="-15" x2="-18" y2="-18"/><line x1="15" y1="15" x2="18" y2="18"/>
+            <line x1="15" y1="-15" x2="18" y2="-18"/><line x1="-15" y1="15" x2="-18" y2="18"/>
+          </g>
+        </g>
+        <!-- 管道 -->
+        <rect x="480" y="802" width="120" height="14" rx="7" fill="url(#rustMetal)"/>
+        <rect x="480" y="802" width="120" height="4" fill="#6A4A30" opacity="0.5"/>
+        <rect x="560" y="828" width="16" height="72" fill="#3E2C1C"/>
+        <!-- 废轮胎 -->
+        <ellipse cx="760" cy="862" rx="46" ry="20" fill="#0D1118" stroke="#1E2530" stroke-width="6"/>
+        <ellipse cx="760" cy="862" rx="22" ry="9" fill="#141821"/>
+      </g>
+      <!-- 右垃圾堆 -->
+      <g>
+        <rect x="1240" y="850" width="85" height="52" rx="4" fill="url(#rustMetal)"/>
+        <rect x="1240" y="850" width="85" height="7" fill="#6A4A30" opacity="0.6"/>
+        <rect x="1300" y="818" width="62" height="36" rx="3" fill="url(#rustMetal)"/>
+        <rect x="1440" y="860" width="72" height="42" rx="3" fill="#241A12"/>
+        <circle cx="1500" cy="840" r="18" fill="#3E2C1C" stroke="#5A3E28" stroke-width="4"/>
+        <circle cx="1500" cy="840" r="7" fill="#241A12"/>
+      </g>
+      <!-- 散落零件（小螺丝、碎金属） -->
+      <g fill="#4A3626">
+        <rect x="640" y="895" width="10" height="4" rx="2"/>
+        <rect x="700" y="905" width="8" height="3" rx="1.5"/>
+        <rect x="520" y="900" width="12" height="4" rx="2"/>
+        <circle cx="1350" cy="900" r="3"/>
+        <circle cx="1560" cy="890" r="2.5"/>
+      </g>
+    </g>
+
+    <!-- 尘土粒子（JS 生成） -->
+    <g id="dust"></g>
+    <!-- 少年赞比（JS 插入） -->
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">时间往回拨七十二年。</text>
+  </g>
+
+  <!-- 渐暗转场 -->
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 25.4;
+
+  // ---- 插入少年赞比 ----
+  var zhanbi = CH.zhanbiChild();
+  zhanbi.setAttribute('id', 'zhanbi');
+  zhanbi.setAttribute('transform', 'translate(180, 760) scale(1.55)');
+  document.getElementById('world').appendChild(zhanbi);
+
+  // ---- 生成尘土粒子 ----
+  var dust = [];
+  (function buildDust(){
+    var g = document.getElementById('dust');
+    var NS = 'http://www.w3.org/2000/svg';
+    for (var i = 0; i < 90; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      var x = Math.random() * 1920;
+      var y = 640 + Math.random() * 440;
+      var r = 0.7 + Math.random() * 2.3;
+      var o = 0.05 + Math.random() * 0.20;
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r);
+      c.setAttribute('fill', (Math.random() < 0.5 ? '#5A4A3A' : '#3A4350'));
+      c.setAttribute('opacity', o);
+      g.appendChild(c);
+      dust.push({el: c, x: x, y: y, vy: 7 + Math.random()*17, ph: Math.random()*6.28, amp: 8 + Math.random()*24});
+    }
+  })();
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var SUBTITLES = [
+    {t: 0.8, text: "时间往回拨七十二年。"},
+    {t: 3.0, text: "那时候，赞比没有名字。"},
+    {t: 5.4, text: "他是英国第三难民营里编号0715的孤儿，"},
+    {t: 10.0, text: "左腿被弹片削掉一截，"},
+    {t: 12.2, text: "走路一瘸一拐，"},
+    {t: 13.7, text: "靠捡垃圾和倒卖废旧零件活命。"},
+    {t: 16.9, text: "战乱年代最不值钱的就是人命，"},
+    {t: 20.1, text: "最值钱的，"},
+    {t: 21.1, text: "也是人命。"},
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+
+    // 1) 淡入 0-2s
+    world.setAttribute('opacity', clamp(t/2, 0, 1));
+
+    // 2) 镜头缓推 0-24s
+    var camE = easeInOut(clamp(t/24, 0, 1));
+    var sc = lerp(1, 1.09, camE);
+    var ty = lerp(0, -34, camE);
+    world.setAttribute('transform', 'translate(0,' + ty + ') scale(' + sc + ')');
+    world.setAttribute('transform-origin', '960 620');
+
+    // 3) 少年赞比：从左向右一瘸一拐走（3-20s）
+    var prog = easeInOut(clamp((t - 3) / 17, 0, 1));
+    var x = lerp(180, 1740, prog);
+    var ph = (t / 1.3) % 1;
+    var ang = ph * 2 * Math.PI;
+    var yBounce = Math.sin(ang) * 4.5 + Math.sin(2 * ang) * 2.2;
+    var sway = Math.sin(ang) * 2.4;
+    zhanbi.setAttribute('transform', 'translate(' + x + ',' + (760 + yBounce) + ') rotate(' + sway + ') scale(1.55)');
+
+    // 拐杖摆动（绕腋下支点 26,-152）
+    var crutch = document.getElementById('crutch');
+    if (crutch) {
+      var cs = -Math.sin(ang) * 14 - Math.sin(2 * ang) * 4;
+      crutch.setAttribute('transform', 'rotate(' + cs + ' 26 -152)');
+    }
+
+    // 4) 尘土漂浮
+    for (var i = 0; i < dust.length; i++) {
+      var d = dust[i];
+      var y = d.y - d.vy * t;
+      y = ((y % 440) + 440) % 440 + 640;
+      var dx = d.x + Math.sin(t * 0.7 + d.ph) * d.amp * 0.25;
+      d.el.setAttribute('cy', y);
+      d.el.setAttribute('cx', dx);
+    }
+
+    // 5) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 6) 渐暗转场（最后 1.5s）
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

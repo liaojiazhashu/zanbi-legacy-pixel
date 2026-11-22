@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S01 葬礼</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0B0E14}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 大厅纵深背景 -->
+    <linearGradient id="hallDepth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A0D13"/>
+      <stop offset="0.45" stop-color="#0E121B"/>
+      <stop offset="0.7" stop-color="#0B0F16"/>
+      <stop offset="1" stop-color="#080A10"/>
+    </linearGradient>
+    <!-- 穹顶圆顶渐变（中央亮→边缘暗） -->
+    <radialGradient id="domeGlow" cx="0.5" cy="0.15" r="0.9">
+      <stop offset="0" stop-color="#1B2434"/>
+      <stop offset="0.55" stop-color="#11151F"/>
+      <stop offset="1" stop-color="#0A0D13"/>
+    </radialGradient>
+    <!-- 体积光（顶部主光柱） -->
+    <linearGradient id="shaftMain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.30"/>
+      <stop offset="0.5" stop-color="#4FC1E0" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </linearGradient>
+    <!-- 体积光（侧窗斜光） -->
+    <linearGradient id="shaftSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8B9ED8" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#8B9ED8" stop-opacity="0"/>
+    </linearGradient>
+    <!-- 高窗冷光 -->
+    <linearGradient id="windowLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8B9ED8" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0.12"/>
+    </linearGradient>
+    <!-- 全息投影辉光 -->
+    <radialGradient id="holoGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.5"/>
+      <stop offset="0.55" stop-color="#4FC1E0" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 地面反光 -->
+    <linearGradient id="floorSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.18"/>
+      <stop offset="0.5" stop-color="#8B9ED8" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#0B0E14" stop-opacity="0"/>
+    </linearGradient>
+    <!-- 基座金属 -->
+    <linearGradient id="pedestal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#33415A"/>
+      <stop offset="1" stop-color="#141A26"/>
+    </linearGradient>
+    <!-- 仿生人头壳金属 -->
+    <linearGradient id="andHead" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3A475A"/>
+      <stop offset="0.6" stop-color="#242E3E"/>
+      <stop offset="1" stop-color="#141A26"/>
+    </linearGradient>
+    <!-- 发光滤镜 -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+    <!-- 全息化滤镜：把插画人物转成冰青单色全息 + 发光 -->
+    <filter id="holoify" x="-60%" y="-60%" width="220%" height="220%">
+      <feColorMatrix type="matrix" values="
+        0.05 0.05 0.05 0 0
+        0.20 0.20 0.20 0 0
+        0.44 0.44 0.44 0 0
+        0    0    0    0.92 0"/>
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- 全息扫描线 -->
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="1.3" fill="#8B9ED8" fill-opacity="0.12"/>
+    </pattern>
+    <!-- 全息数据噪点 -->
+    <pattern id="holoNoise" width="7" height="7" patternUnits="userSpaceOnUse">
+      <rect width="1.2" height="1.2" x="1" y="3" fill="#4FC1E0" fill-opacity="0.5"/>
+      <rect width="1.2" height="1.2" x="5" y="1" fill="#8B9ED8" fill-opacity="0.4"/>
+    </pattern>
+  </defs>
+
+  <!-- 可动世界（镜头运动 + 淡入） -->
+  <g id="world">
+    <!-- 大厅背景 -->
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#hallDepth)"/>
+
+    <!-- 穹顶圆顶（中央） -->
+    <ellipse cx="960" cy="-40" rx="880" ry="360" fill="url(#domeGlow)"/>
+
+    <!-- 穹顶拱肋（放射状几何，带明暗） -->
+    <g id="dome" stroke="#242E3E" stroke-width="2" fill="none" opacity="0.9">
+      <path d="M 0 220 Q 960 -90 1920 220"/>
+      <path d="M 120 250 Q 960 -40 1800 250" opacity="0.55"/>
+      <path d="M 320 295 Q 960 40 1600 295" opacity="0.4"/>
+      <path d="M 520 330 Q 960 110 1400 330" opacity="0.3"/>
+      <!-- 垂直拱肋（有明暗交替） -->
+      <line x1="960" y1="0" x2="960" y2="320" stroke="#3A475A" stroke-width="2.5"/>
+      <line x1="480" y1="55" x2="480" y2="330" opacity="0.7"/>
+      <line x1="1440" y1="55" x2="1440" y2="330" opacity="0.7"/>
+      <line x1="240" y1="128" x2="240" y2="345" opacity="0.55"/>
+      <line x1="1680" y1="128" x2="1680" y2="345" opacity="0.55"/>
+      <line x1="120" y1="185" x2="120" y2="360" opacity="0.4"/>
+      <line x1="1800" y1="185" x2="1800" y2="360" opacity="0.4"/>
+    </g>
+
+    <!-- 高侧窗（尖拱窗，透冷光） -->
+    <g id="windows">
+      <!-- 左排窗 -->
+      <g>
+        <path d="M 120 300 L 120 210 Q 195 150 270 210 L 270 300 Z" fill="url(#windowLight)" stroke="#242E3E" stroke-width="2"/>
+        <line x1="195" y1="180" x2="195" y2="300" stroke="#242E3E" stroke-width="2"/>
+        <line x1="120" y1="250" x2="270" y2="250" stroke="#242E3E" stroke-width="1.5"/>
+        <path d="M 330 300 L 330 210 Q 405 150 480 210 L 480 300 Z" fill="url(#windowLight)" stroke="#242E3E" stroke-width="2" opacity="0.8"/>
+        <line x1="405" y1="180" x2="405" y2="300" stroke="#242E3E" stroke-width="2" opacity="0.8"/>
+      </g>
+      <!-- 右排窗 -->
+      <g>
+        <path d="M 1440 300 L 1440 210 Q 1515 150 1590 210 L 1590 300 Z" fill="url(#windowLight)" stroke="#242E3E" stroke-width="2" opacity="0.8"/>
+        <line x1="1515" y1="180" x2="1515" y2="300" stroke="#242E3E" stroke-width="2" opacity="0.8"/>
+        <path d="M 1650 300 L 1650 210 Q 1725 150 1800 210 L 1800 300 Z" fill="url(#windowLight)" stroke="#242E3E" stroke-width="2"/>
+        <line x1="1725" y1="180" x2="1725" y2="300" stroke="#242E3E" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- 两侧立柱 -->
+    <g id="columns">
+      <rect x="60" y="300" width="16" height="700" fill="#1A2130"/>
+      <rect x="52" y="300" width="32" height="10" fill="#2A3342"/>
+      <rect x="52" y="990" width="32" height="10" fill="#2A3342"/>
+      <rect x="1844" y="300" width="16" height="700" fill="#1A2130"/>
+      <rect x="1836" y="300" width="32" height="10" fill="#2A3342"/>
+      <rect x="1836" y="990" width="32" height="10" fill="#2A3342"/>
+    </g>
+
+    <!-- 体积光：顶部主光柱 -->
+    <polygon points="840,0 1080,0 1240,1080 680,1080" fill="url(#shaftMain)"/>
+    <!-- 侧窗斜光 -->
+    <polygon points="160,300 300,300 620,1080 380,1080" fill="url(#shaftSide)"/>
+    <polygon points="1620,300 1760,300 1540,1080 1300,1080" fill="url(#shaftSide)"/>
+
+    <!-- 地面（大理石反光） -->
+    <rect x="0" y="900" width="1920" height="180" fill="url(#floorSheen)"/>
+    <line x1="0" y1="900" x2="1920" y2="900" stroke="#242E3E" stroke-width="1.5" opacity="0.5"/>
+    <!-- 地面拼缝 -->
+    <g stroke="#1A2130" stroke-width="1" opacity="0.5">
+      <line x1="480" y1="900" x2="480" y2="1080"/>
+      <line x1="960" y1="900" x2="960" y2="1080"/>
+      <line x1="1440" y1="900" x2="1440" y2="1080"/>
+    </g>
+
+    <!-- 基座（灵柩台） -->
+    <g id="pedestal">
+      <rect x="830" y="686" width="260" height="20" rx="3" fill="url(#pedestal)" stroke="#2A3342" stroke-width="1.5"/>
+      <rect x="856" y="706" width="208" height="12" rx="2" fill="#0D1118" stroke="#242E3E" stroke-width="1"/>
+      <ellipse cx="960" cy="720" rx="150" ry="22" fill="#0B0E14" stroke="#242E3E" stroke-width="1.5"/>
+      <!-- 基座发光环 -->
+      <ellipse cx="960" cy="696" rx="118" ry="16" fill="none" stroke="#4FC1E0" stroke-opacity="0.4" stroke-width="1.5" filter="url(#glow)"/>
+    </g>
+
+    <!-- 全息投影赞比（插画级老人 + 全息化） -->
+    <g id="holo">
+      <!-- 光晕 -->
+      <circle id="holoGlowC" cx="960" cy="470" r="330" fill="url(#holoGlow)" filter="url(#softGlow)"/>
+      <!-- 插画级老人（全息化） -->
+      <g id="holoFigure" transform="translate(960 672) scale(1.9)" filter="url(#holoify)">
+        <g id="holoZhanbi"></g>
+      </g>
+      <!-- 扫描线叠加 -->
+      <rect id="holoScan" x="830" y="300" width="260" height="380" fill="url(#scanlines)" opacity="0.6" filter="url(#glow)"/>
+      <!-- 数据噪点 -->
+      <rect id="holoNoiseR" x="830" y="300" width="260" height="380" fill="url(#holoNoise)" opacity="0.4"/>
+      <!-- 发光描边（轮廓强调） -->
+      <g id="holoRim" fill="none" stroke="#8B9ED8" stroke-width="3" filter="url(#glow)" opacity="0.5">
+        <ellipse cx="960" cy="345" rx="52" ry="46"/>
+      </g>
+    </g>
+
+    <!-- 地面全息倒影光斑 -->
+    <ellipse cx="960" cy="728" rx="200" ry="30" fill="url(#holoGlow)" opacity="0.5"/>
+
+    <!-- 哀悼人群（JS 生成：仿生人 + 前排人类） -->
+    <g id="crowd"></g>
+
+    <!-- 尘埃粒子 + 全息数据粒子（JS 生成） -->
+    <g id="dust"></g>
+    <g id="holoParticles"></g>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">赞比是银河系中最富有的人。</text>
+  </g>
+
+  <!-- 渐暗转场 -->
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 21.7;
+
+  // ---- 挂载全息投影的老人（插画级）----
+  document.getElementById('holoZhanbi').appendChild(CH.zhanbiOld());
+
+  // ---- 生成哀悼人群 ----
+  (function buildCrowd(){
+    var g = document.getElementById('crowd');
+    var NS = 'http://www.w3.org/2000/svg';
+
+    // 仿生人哀悼者（站姿剪影，精致几何 + 冰青眼线 + 渐变明暗）
+    function androidMourner() {
+      var a = document.createElementNS(NS, 'g');
+      // 头（金属渐变 + 顶部高光）
+      var hd = document.createElementNS(NS, 'circle');
+      hd.setAttribute('cx', 0); hd.setAttribute('cy', -60); hd.setAttribute('r', 18);
+      hd.setAttribute('fill', 'url(#andHead)');
+      var hl = document.createElementNS(NS, 'ellipse');
+      hl.setAttribute('cx', -5); hl.setAttribute('cy', -66); hl.setAttribute('rx', 6); hl.setAttribute('ry', 3.5);
+      hl.setAttribute('fill', '#4FC1E0'); hl.setAttribute('opacity', '0.25');
+      // 冰青眼线（发光）
+      var eye = document.createElementNS(NS, 'rect');
+      eye.setAttribute('x', -11); eye.setAttribute('y', -61); eye.setAttribute('width', 22); eye.setAttribute('height', 2.4);
+      eye.setAttribute('rx', 1.2); eye.setAttribute('fill', '#4FC1E0'); eye.setAttribute('opacity', '0.7'); eye.setAttribute('filter', 'url(#glow)');
+      // 身体（渐变明暗）
+      var bd = document.createElementNS(NS, 'path');
+      bd.setAttribute('d', 'M -9 -41 L 9 -41 L 14 44 L -14 44 Z');
+      bd.setAttribute('fill', '#1A2130');
+      // 衣领（V 领）
+      var cl = document.createElementNS(NS, 'polygon');
+      cl.setAttribute('points', '-5,-41 5,-41 0,-32');
+      cl.setAttribute('fill', '#242E3E');
+      // 手臂
+      var arL = document.createElementNS(NS, 'rect');
+      arL.setAttribute('x', -17); arL.setAttribute('y', -38); arL.setAttribute('width', 6); arL.setAttribute('height', 76); arL.setAttribute('rx', 3);
+      arL.setAttribute('fill', '#141A26');
+      var arR = document.createElementNS(NS, 'rect');
+      arR.setAttribute('x', 11); arR.setAttribute('y', -38); arR.setAttribute('width', 6); arR.setAttribute('height', 76); arR.setAttribute('rx', 3);
+      arR.setAttribute('fill', '#141A26');
+      // 腿
+      var lgL = document.createElementNS(NS, 'rect');
+      lgL.setAttribute('x', -11); lgL.setAttribute('y', 44); lgL.setAttribute('width', 9); lgL.setAttribute('height', 50);
+      lgL.setAttribute('fill', '#0F1319');
+      var lgR = document.createElementNS(NS, 'rect');
+      lgR.setAttribute('x', 2); lgR.setAttribute('y', 44); lgR.setAttribute('width', 9); lgR.setAttribute('height', 50);
+      lgR.setAttribute('fill', '#0F1319');
+      a.appendChild(hd); a.appendChild(hl); a.appendChild(eye); a.appendChild(bd); a.appendChild(cl);
+      a.appendChild(arL); a.appendChild(arR); a.appendChild(lgL); a.appendChild(lgR);
+      return a;
+    }
+
+    // 人类哀悼者（前排剪影，带头发轮廓区分）
+    function humanMourner() {
+      var h = document.createElementNS(NS, 'g');
+      var hd = document.createElementNS(NS, 'circle');
+      hd.setAttribute('cx', 0); hd.setAttribute('cy', -60); hd.setAttribute('r', 18);
+      hd.setAttribute('fill', '#12161F');
+      // 头发轮廓（有起伏，区别于仿生人光头）
+      var hr = document.createElementNS(NS, 'path');
+      hr.setAttribute('d', 'M -18 -58 Q -12 -80 4 -78 Q 16 -76 18 -58 Q 10 -62 -2 -60 Q -14 -58 -18 -58 Z');
+      hr.setAttribute('fill', '#0A0D13');
+      // 身体（深色西装，略宽）
+      var bd = document.createElementNS(NS, 'path');
+      bd.setAttribute('d', 'M -12 -41 L 12 -41 L 17 46 L -17 46 Z');
+      bd.setAttribute('fill', '#0D1118');
+      // 领带（冰青点缀）
+      var tie = document.createElementNS(NS, 'polygon');
+      tie.setAttribute('points', '-2,-41 2,-41 1,-28 -1,-28');
+      tie.setAttribute('fill', '#4FC1E0'); tie.setAttribute('opacity', '0.5');
+      var lgL = document.createElementNS(NS, 'rect');
+      lgL.setAttribute('x', -13); lgL.setAttribute('y', 46); lgL.setAttribute('width', 10); lgL.setAttribute('height', 48);
+      lgL.setAttribute('fill', '#0B0E14');
+      var lgR = document.createElementNS(NS, 'rect');
+      lgR.setAttribute('x', 3); lgR.setAttribute('y', 46); lgR.setAttribute('width', 10); lgR.setAttribute('height', 48);
+      lgR.setAttribute('fill', '#0B0E14');
+      h.appendChild(hd); h.appendChild(hr); h.appendChild(bd); h.appendChild(tie); h.appendChild(lgL); h.appendChild(lgR);
+      return h;
+    }
+
+    // 5 排人群（远→近），每排混合仿生人（主体）+ 前排人类
+    var rows = [
+      { y: 640, n: 21, s: 0.42, dark: 0.62, human: false },
+      { y: 700, n: 25, s: 0.55, dark: 0.5, human: false },
+      { y: 770, n: 29, s: 0.72, dark: 0.38, human: false },
+      { y: 855, n: 21, s: 0.95, dark: 0.24, human: false },
+      { y: 950, n: 15, s: 1.22, dark: 0.12, human: true }
+    ];
+    for (var r = 0; r < rows.length; r++) {
+      var row = rows[r];
+      var n = row.n, y = row.y, s = row.s;
+      var span = 1720;
+      var step = span / (n - 1);
+      for (var i = 0; i < n; i++) {
+        var x = 100 + step * i + (Math.random() * 10 - 5);
+        var yy = y + (Math.random() * 6 - 3);
+        var ss = s * (0.94 + Math.random() * 0.12);
+        var m = document.createElementNS(NS, 'g');
+        m.setAttribute('transform', 'translate(' + x + ',' + yy + ') scale(' + ss + ')');
+        m.setAttribute('opacity', 1 - row.dark * (0.7 + Math.random() * 0.3));
+        // 前排混合：最前排每 3 个里有 1 个人类
+        var isHuman = row.human && (i % 3 === 0);
+        var fig = isHuman ? humanMourner() : androidMourner();
+        m.appendChild(fig);
+        g.appendChild(m);
+      }
+    }
+  })();
+
+  // ---- 尘埃粒子 ----
+  var dust = [];
+  (function buildDust(){
+    var g = document.getElementById('dust');
+    var NS = 'http://www.w3.org/2000/svg';
+    for (var i = 0; i < 80; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      var x = Math.random() * 1920, y = Math.random() * 1080;
+      var r = 0.7 + Math.random() * 2.0;
+      var o = 0.05 + Math.random() * 0.2;
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r);
+      c.setAttribute('fill', (Math.random() < 0.5 ? '#8B9ED8' : '#4FC1E0'));
+      c.setAttribute('opacity', o);
+      g.appendChild(c);
+      dust.push({el: c, x: x, y: y, vy: 5 + Math.random()*14, ph: Math.random()*6.28, amp: 8 + Math.random()*26});
+    }
+  })();
+
+  // ---- 全息数据粒子（从投影升腾） ----
+  var holoParts = [];
+  (function buildHoloParticles(){
+    var g = document.getElementById('holoParticles');
+    var NS = 'http://www.w3.org/2000/svg';
+    for (var i = 0; i < 45; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      var x = 860 + Math.random() * 200;
+      var y = 380 + Math.random() * 300;
+      var r = 0.6 + Math.random() * 1.6;
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r);
+      c.setAttribute('fill', (Math.random() < 0.6 ? '#4FC1E0' : '#8B9ED8'));
+      c.setAttribute('opacity', 0);
+      g.appendChild(c);
+      holoParts.push({el: c, x: x, y0: y, vy: 18 + Math.random()*28, ph: Math.random()*6.28, amp: 12 + Math.random()*30, life: 2 + Math.random()*4});
+    }
+  })();
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var SUBTITLES = [
+    {t: 1.0, text: "赞比是银河系中最富有的人。"},
+    {t: 3.9, text: "他去世的那天，银河系有三百亿人在哀悼。"},
+    {t: 8.1, text: "葬礼在赞比的家乡举行，"},
+    {t: 10.6, text: "全息投影把他生前的影像投射在半空中。"},
+    {t: 14.6, text: "没有人哭。"},
+    {t: 15.7, text: "因为来的，大部分都是仿生人。"},
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+
+    // 1) 淡入 0-1.6s
+    world.setAttribute('opacity', clamp(t/1.6, 0, 1));
+
+    // 2) 镜头运动 0-8s（下移 + 轻微推近）
+    var camE = easeInOut(clamp(t/8, 0, 1));
+    var ty = lerp(0, -60, camE);
+    var sc = lerp(1, 1.045, camE);
+    world.setAttribute('transform', 'translate(0,' + ty + ') scale(' + sc + ')');
+    world.setAttribute('transform-origin', '960 430');
+
+    // 3) 全息投影闪烁（2s 后）+ 悬浮
+    var holo = document.getElementById('holo');
+    var flick = 1;
+    if (t > 2) {
+      flick = 0.93 + 0.07 * Math.sin(t*7.3) * Math.sin(t*3.1);
+      if (Math.sin(t*0.9) > 0.86) flick *= 1.18;
+    }
+    holo.setAttribute('opacity', clamp(flick, 0.5, 1.12));
+    var hover = Math.sin(t*1.6) * 4;
+    document.getElementById('holoGlowC').setAttribute('cy', 470 + hover);
+    document.getElementById('holoFigure').setAttribute('transform', 'translate(960 ' + (672 + hover) + ') scale(1.9)');
+
+    // 4) 尘埃漂浮
+    for (var i = 0; i < dust.length; i++) {
+      var d = dust[i];
+      var y = d.y - d.vy * t;
+      y = ((y % 1080) + 1080) % 1080;
+      var x = d.x + Math.sin(t*0.6 + d.ph) * d.amp * 0.2;
+      d.el.setAttribute('cy', y); d.el.setAttribute('cx', x);
+    }
+
+    // 5) 全息数据粒子升腾（循环）
+    for (var j = 0; j < holoParts.length; j++) {
+      var p = holoParts[j];
+      var cyc = (t % p.life) / p.life;
+      var py = p.y0 - cyc * p.vy * p.life;
+      var px = p.x + Math.sin(t*1.4 + p.ph) * p.amp;
+      p.el.setAttribute('cy', py);
+      p.el.setAttribute('cx', px);
+      p.el.setAttribute('opacity', clamp(Math.sin(cyc * Math.PI), 0, 1) * 0.8);
+    }
+
+    // 6) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 7) 渐暗转场（最后 1.5s）
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>

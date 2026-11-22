@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>章节卡 下</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#05070C}
+  svg{display:block}
+  .loc{font-family:'Microsoft YaHei','PingFang SC',sans-serif}
+  .year{font-family:'Consolas','Microsoft YaHei',sans-serif;font-weight:300}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.45" r="0.85">
+      <stop offset="0" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#04060A"/>
+    </radialGradient>
+    <radialGradient id="star" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF8E8"/>
+      <stop offset="0.6" stop-color="#FFE0A0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#FFE0A0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#bg)"/>
+
+    <!-- 戴森环（背景，恒星 + 环带） -->
+    <g id="dyson" transform="translate(960, 400)">
+      <circle cx="0" cy="0" r="70" fill="#FFE0A0"/>
+      <circle cx="0" cy="0" r="200" fill="url(#star)"/>
+      <ellipse cx="0" cy="0" rx="820" ry="140" fill="none" stroke="#4FC1E0" stroke-width="8" opacity="0.5"/>
+      <ellipse cx="0" cy="0" rx="820" ry="140" fill="none" stroke="#4FC1E0" stroke-width="22" opacity="0.18" filter="url(#softGlow)"/>
+      <ellipse cx="0" cy="0" rx="580" ry="96" fill="none" stroke="#8B9ED8" stroke-width="6" opacity="0.4"/>
+    </g>
+
+    <!-- 星空 -->
+    <g id="stars"></g>
+
+    <!-- 章节标记 -->
+    <text id="chapterMark" x="120" y="150" font-size="44" fill="#4FC1E0" class="loc" opacity="0">下</text>
+    <line id="chapterLine" x1="120" y1="170" x2="320" y2="170" stroke="#4FC1E0" stroke-width="1.5" opacity="0"/>
+
+    <!-- 年份 -->
+    <g id="yearGroup" class="year" fill="#4FC1E0" filter="url(#glow)" text-anchor="middle" font-size="150">
+      <text id="d0" x="810" y="580" opacity="0">2</text>
+      <text id="d1" x="900" y="580" opacity="0">2</text>
+      <text id="d2" x="990" y="580" opacity="0">5</text>
+      <text id="d3" x="1080" y="580" opacity="0">9</text>
+    </g>
+
+    <text id="location" x="960" y="700" text-anchor="middle" font-size="40" fill="#8B9ED8" class="loc" opacity="0">拉格朗日八号</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script>
+  window.SCENE_DURATION = 6;
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  // 星空
+  var stars = document.getElementById('stars');
+  for (var i = 0; i < 90; i++) {
+    var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', Math.random() * 1920);
+    c.setAttribute('cy', Math.random() * 1080);
+    c.setAttribute('r', Math.random() * 1.5 + 0.4);
+    c.setAttribute('fill', '#8B9ED8');
+    c.setAttribute('opacity', Math.random() * 0.5 + 0.1);
+    stars.appendChild(c);
+  }
+
+  window.setTime = function(t){
+    document.getElementById('chapterMark').setAttribute('opacity', clamp(t/0.8, 0, 1));
+    document.getElementById('chapterLine').setAttribute('opacity', clamp((t-0.4)/0.4, 0, 1));
+
+    for (var d = 0; d < 4; d++) {
+      var on = clamp((t - 1 - d * 0.6) / 0.5, 0, 1);
+      document.getElementById('d' + d).setAttribute('opacity', easeInOut(on));
+    }
+    document.getElementById('location').setAttribute('opacity', clamp((t - 3.6) / 0.8, 0, 1));
+
+    var breathe = 0.85 + 0.15 * Math.sin((t - 3) * 1.8);
+    document.getElementById('yearGroup').setAttribute('opacity', breathe);
+
+    // 戴森环微转
+    document.getElementById('dyson').setAttribute('transform', 'translate(960,400) rotate(' + (t * 3) + ')');
+
+    var fo = clamp((t - 5) / 1, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+  setTime(0);
+</script>
+</body>
+</html>

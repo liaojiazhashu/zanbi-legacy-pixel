@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>章节卡 中</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#05070C}
+  svg{display:block}
+  .loc{font-family:'Microsoft YaHei','PingFang SC',sans-serif}
+  .year{font-family:'Consolas','Microsoft YaHei',sans-serif;font-weight:300}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.45" r="0.85">
+      <stop offset="0" stop-color="#0B0E14"/>
+      <stop offset="1" stop-color="#04060A"/>
+    </radialGradient>
+    <radialGradient id="pitGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#bg)"/>
+
+    <!-- 矿坑螺旋（背景，俯视感） -->
+    <g id="pit" transform="translate(960, 500)">
+      <circle cx="0" cy="0" r="420" fill="url(#pitGlow)"/>
+      <!-- 同心螺旋：名字短线 -->
+      <g id="pitRings"></g>
+    </g>
+
+    <!-- 章节标记 -->
+    <text id="chapterMark" x="120" y="150" font-size="44" fill="#4FC1E0" class="loc" opacity="0">中</text>
+    <line id="chapterLine" x1="120" y1="170" x2="320" y2="170" stroke="#4FC1E0" stroke-width="1.5" opacity="0"/>
+
+    <!-- 年份 -->
+    <g id="yearGroup" class="year" fill="#4FC1E0" filter="url(#glow)" text-anchor="middle" font-size="150">
+      <text id="d0" x="810" y="580" opacity="0">2</text>
+      <text id="d1" x="900" y="580" opacity="0">1</text>
+      <text id="d2" x="990" y="580" opacity="0">5</text>
+      <text id="d3" x="1080" y="580" opacity="0">6</text>
+    </g>
+
+    <text id="location" x="960" y="700" text-anchor="middle" font-size="40" fill="#8B9ED8" class="loc" opacity="0">拉格朗日八号</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script>
+  window.SCENE_DURATION = 6;
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  // 生成矿坑螺旋名字短线
+  var pitRings = document.getElementById('pitRings');
+  for (var ring = 0; ring < 12; ring++) {
+    var rad = 60 + ring * 32;
+    var count = Math.floor(20 + ring * 3);
+    for (var a = 0; a < count; a++) {
+      var ang = (a / count) * Math.PI * 2 + ring * 0.5;
+      var x1 = Math.cos(ang) * rad;
+      var y1 = Math.sin(ang) * rad;
+      var x2 = Math.cos(ang) * (rad + 14);
+      var y2 = Math.sin(ang) * (rad + 14);
+      var l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+      l.setAttribute('stroke', a % 3 === 0 ? '#4FC1E0' : '#8B9ED8');
+      l.setAttribute('stroke-width', '2.5');
+      l.setAttribute('opacity', 0.3 + (ring / 12) * 0.5);
+      pitRings.appendChild(l);
+    }
+  }
+
+  window.setTime = function(t){
+    document.getElementById('chapterMark').setAttribute('opacity', clamp(t/0.8, 0, 1));
+    document.getElementById('chapterLine').setAttribute('opacity', clamp((t-0.4)/0.4, 0, 1));
+
+    for (var d = 0; d < 4; d++) {
+      var on = clamp((t - 1 - d * 0.6) / 0.5, 0, 1);
+      document.getElementById('d' + d).setAttribute('opacity', easeInOut(on));
+    }
+    document.getElementById('location').setAttribute('opacity', clamp((t - 3.6) / 0.8, 0, 1));
+
+    var breathe = 0.85 + 0.15 * Math.sin((t - 3) * 1.8);
+    document.getElementById('yearGroup').setAttribute('opacity', breathe);
+
+    // 矿坑缓慢旋转
+    document.getElementById('pit').setAttribute('transform', 'translate(960,500) rotate(' + (t * 6) + ')');
+
+    var fo = clamp((t - 5) / 1, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+  setTime(0);
+</script>
+</body>
+</html>

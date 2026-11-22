@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>《赞比的遗产》S11 地下车间</title>
+<style>
+  html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#0A0D13}
+  svg{display:block}
+  .sub{font-family:'Microsoft YaHei','PingFang SC',sans-serif;font-weight:300;letter-spacing:1px}
+</style>
+</head>
+<body>
+<svg id="stage" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A0D13"/>
+      <stop offset="1" stop-color="#0D1219"/>
+    </linearGradient>
+    <!-- 冷蓝光氛围 -->
+    <radialGradient id="coolGlow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#4FC1E0" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#4FC1E0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2A3342"/>
+      <stop offset="1" stop-color="#151A24"/>
+    </linearGradient>
+    <linearGradient id="metalL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3A475A"/>
+      <stop offset="1" stop-color="#1A2230"/>
+    </linearGradient>
+    <!-- 机箱 -->
+    <linearGradient id="rack" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1A2230"/>
+      <stop offset="0.5" stop-color="#242E3E"/>
+      <stop offset="1" stop-color="#151A24"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <g id="world">
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#shop)"/>
+    <circle cx="960" cy="560" r="600" fill="url(#coolGlow)"/>
+
+    <!-- 金属墙面格栅 -->
+    <g stroke="#141A26" stroke-width="2" opacity="0.6">
+      <line x1="0" y1="180" x2="1920" y2="180"/>
+      <line x1="0" y1="360" x2="1920" y2="360"/>
+      <line x1="0" y1="540" x2="1920" y2="540"/>
+      <line x1="0" y1="720" x2="1920" y2="720"/>
+    </g>
+    <!-- 顶部管道 -->
+    <g stroke="#1A2230" stroke-width="10" stroke-linecap="round">
+      <line x1="100" y1="90" x2="500" y2="90"/>
+      <line x1="900" y1="70" x2="1400" y2="70"/>
+      <line x1="1700" y1="100" x2="1850" y2="100"/>
+    </g>
+
+    <!-- 墙边机箱（右侧） -->
+    <g id="rackGroup">
+      <rect x="1560" y="200" width="200" height="600" rx="8" fill="url(#rack)" stroke="#2A3342" stroke-width="2"/>
+      <rect x="1560" y="200" width="200" height="10" fill="#4FC1E0" opacity="0.4"/>
+      <!-- 机箱指示灯 -->
+      <g id="rackLights">
+        <circle cx="1590" cy="280" r="5" fill="#4FC1E0"/>
+        <circle cx="1620" cy="280" r="5" fill="#4FC1E0"/>
+        <circle cx="1650" cy="280" r="5" fill="#8B9ED8"/>
+        <circle cx="1680" cy="280" r="5" fill="#4FC1E0"/>
+        <circle cx="1710" cy="280" r="5" fill="#8B9ED8"/>
+        <circle cx="1740" cy="280" r="5" fill="#4FC1E0"/>
+      </g>
+      <rect x="1580" y="320" width="160" height="8" fill="#151A24"/>
+      <rect x="1580" y="360" width="160" height="8" fill="#151A24"/>
+      <rect x="1580" y="400" width="160" height="8" fill="#151A24"/>
+      <rect x="1580" y="440" width="160" height="8" fill="#151A24"/>
+    </g>
+
+    <!-- 光纤束（从机器人后脑到机箱） -->
+    <g id="fiberBundle">
+      <path d="M 700 480 Q 1000 400 1300 380 Q 1450 370 1560 400" fill="none" stroke="#4FC1E0" stroke-width="3" opacity="0.35"/>
+      <path d="M 700 490 Q 1000 430 1300 400 Q 1450 390 1560 420" fill="none" stroke="#8B9ED8" stroke-width="2" opacity="0.3"/>
+      <path d="M 700 500 Q 1000 460 1300 420 Q 1450 410 1560 440" fill="none" stroke="#4FC1E0" stroke-width="2.5" opacity="0.3"/>
+    </g>
+
+    <!-- 中央平台 -->
+    <g id="platform">
+      <rect x="520" y="600" width="880" height="60" rx="10" fill="url(#metal)"/>
+      <rect x="520" y="600" width="880" height="8" fill="#3A475A" opacity="0.5"/>
+      <!-- 平台支柱 -->
+      <rect x="560" y="660" width="40" height="300" fill="#141A26"/>
+      <rect x="1320" y="660" width="40" height="300" fill="#141A26"/>
+    </g>
+
+    <!-- 半具机器人（仰卧在平台，插画级） -->
+    <g id="halfRobot" transform="translate(880, 600)">
+      <!-- 腰部以下：线缆束 + 金属脊椎（垂落到平台前） -->
+      <g id="cables">
+        <path d="M -20 60 Q -50 120 -30 200 Q -20 240 -40 300" fill="none" stroke="#4FC1E0" stroke-width="3" opacity="0.5"/>
+        <path d="M 0 60 Q 10 130 0 200 Q -10 250 10 320" fill="none" stroke="#8B9ED8" stroke-width="2.5" opacity="0.45"/>
+        <path d="M 20 60 Q 50 120 30 210 Q 20 260 40 310" fill="none" stroke="#4FC1E0" stroke-width="2" opacity="0.4"/>
+        <!-- 金属脊椎（节状，垂落） -->
+        <g id="spine">
+          <rect x="-8" y="60" width="16" height="12" rx="3" fill="url(#metalL)"/>
+          <rect x="-8" y="74" width="16" height="12" rx="3" fill="url(#metal)"/>
+          <rect x="-8" y="88" width="16" height="12" rx="3" fill="url(#metalL)"/>
+          <rect x="-8" y="102" width="16" height="12" rx="3" fill="url(#metal)"/>
+          <rect x="-8" y="116" width="16" height="12" rx="3" fill="url(#metalL)"/>
+        </g>
+      </g>
+
+      <!-- 躯干（金属，仰卧） -->
+      <path d="M -60 -100 L 60 -100 L 52 60 L -52 60 Z" fill="url(#metal)"/>
+      <!-- 胸部分段线 -->
+      <line x1="-50" y1="-40" x2="50" y2="-40" stroke="#0B0E14" stroke-width="2" opacity="0.6"/>
+      <line x1="-48" y1="10" x2="48" y2="10" stroke="#0B0E14" stroke-width="2" opacity="0.6"/>
+      <!-- 胸口核心灯（慢脉动） -->
+      <circle id="coreLight2" cx="0" cy="-70" r="10" fill="#4FC1E0"/>
+      <circle id="coreLight2Glow" cx="0" cy="-70" r="22" fill="#4FC1E0" opacity="0.3" filter="url(#glow)"/>
+
+      <!-- 双液压臂（摊开泄压，向两侧下垂） -->
+      <g id="leftArm">
+        <rect x="-120" y="-90" width="60" height="16" rx="6" fill="url(#metalL)"/>
+        <rect x="-150" y="-90" width="26" height="16" rx="6" fill="url(#metal)"/>
+        <rect x="-170" y="-86" width="20" height="8" rx="4" fill="#151A24"/>
+        <!-- 液压杆 -->
+        <line x1="-120" y1="-86" x2="-160" y2="-86" stroke="#4FC1E0" stroke-width="3" opacity="0.5"/>
+      </g>
+      <g id="rightArm">
+        <rect x="60" y="-90" width="60" height="16" rx="6" fill="url(#metalL)"/>
+        <rect x="124" y="-90" width="26" height="16" rx="6" fill="url(#metal)"/>
+        <rect x="150" y="-86" width="20" height="8" rx="4" fill="#151A24"/>
+        <line x1="120" y1="-86" x2="160" y2="-86" stroke="#4FC1E0" stroke-width="3" opacity="0.5"/>
+      </g>
+
+      <!-- 头（仰卧，朝左） -->
+      <g id="robotHead">
+        <rect x="-160" y="-120" width="100" height="80" rx="16" fill="url(#metalL)"/>
+        <!-- 发光眼带 -->
+        <rect id="robotEye" x="-140" y="-92" width="56" height="9" rx="4.5" fill="#4FC1E0"/>
+        <rect id="robotEyeGlow" x="-140" y="-92" width="56" height="9" rx="4.5" fill="#4FC1E0" opacity="0.5" filter="url(#glow)"/>
+        <!-- 后脑光纤接口（连向机箱） -->
+        <circle cx="-160" cy="-80" r="6" fill="#4FC1E0" opacity="0.6"/>
+        <!-- 面部接缝 -->
+        <line x1="-110" y1="-120" x2="-110" y2="-40" stroke="#0B0E14" stroke-width="1.5" opacity="0.5"/>
+        <!-- 半张脸（下半机械镂空感） -->
+        <rect x="-100" y="-70" width="36" height="30" rx="6" fill="#0B0E14" opacity="0.4"/>
+      </g>
+    </g>
+
+    <!-- 老态克隆赞比（149岁）+ 理查德（站平台左前方） -->
+    <g id="cloneOld" transform="translate(360, 660) scale(1.6)"></g>
+    <g id="richard" transform="translate(500, 660) scale(1.5)"></g>
+  </g>
+
+  <!-- 字幕 -->
+  <g id="subtitleGroup">
+    <rect id="subBg" x="360" y="952" width="1200" height="72" rx="8" fill="#0B0E14" fill-opacity="0.66" opacity="0"/>
+    <text id="subText" class="sub" x="960" y="1000" text-anchor="middle" font-size="34" fill="#d9e6f0" opacity="0">他已经一百四十九岁了。</text>
+  </g>
+
+  <rect id="fadeOut" x="0" y="0" width="1920" height="1080" fill="#000" opacity="0"/>
+</svg>
+
+<script src="characters.js"></script>
+<script>
+  window.SCENE_DURATION = 51.7;
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function easeInOut(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  // 老态克隆赞比（149岁，白发秃顶 + 深色西装）
+  var cloneOld = CH.adult({h: 360, skin:'#D9B08A', hair:'#C9D2D8', hairStyle:'bald', suit:'#2B3038', shirt:'#E8EEF4', tie:'#4FC1E0', pants:'#151A24', expr:'calm', browKind:'sad', beard:'#C9D2D8'});
+  document.getElementById('cloneOld').appendChild(cloneOld);
+  // 理查德
+  var richard = CH.richard();
+  document.getElementById('richard').appendChild(richard);
+
+  var SUBTITLES = [
+    {t: 1.0, text: "他已经一百四十九岁了。"},
+    {t: 3.7, text: "我想请你帮我立遗嘱。"},
+    {t: 6.1, text: "你也克隆了一个自己？"},
+    {t: 8.8, text: "不，"},
+    {t: 9.1, text: "如果还有克隆体，"},
+    {t: 10.7, text: "我不想让他遭受和我一样的痛苦了。"},
+    {t: 14.1, text: "他带我到戴森环的内部。"},
+    {t: 16.4, text: "房间中央的平台上，是半具机器人。"},
+    {t: 19.8, text: "后脑勺的光纤束，"},
+    {t: 21.5, text: "一直延伸到墙边的机箱，"},
+    {t: 23.9, text: "光脉动很慢。"},
+    {t: 25.3, text: "这些董事私下里叫我条件反射的肉块，"},
+    {t: 28.8, text: "说我是一只哲学僵尸。"},
+    {t: 30.8, text: "所以，我建造了这里。"},
+    {t: 32.7, text: "这个，理查德先生，我想让它继承我的遗产。"},
+    {t: 36.8, text: "一个检索系统。"},
+    {t: 38.4, text: "它会根据我的记忆，做出和我一样的决策。"},
+    {t: 42.9, text: "能源，来自整颗恒星。"},
+    {t: 45.3, text: "没事的，他本质上，和我是一样的。"}
+  ];
+
+  window.setTime = function(t){
+    var world = document.getElementById('world');
+    world.setAttribute('opacity', clamp(t/1.5, 0, 1));
+
+    // 1) 光脉动（慢）：核心灯 + 眼带 + 光纤 + 机箱灯
+    var pulse = 0.4 + 0.5 * Math.abs(Math.sin(t * 0.9)); // 很慢
+    document.getElementById('coreLight2').setAttribute('opacity', pulse);
+    document.getElementById('coreLight2Glow').setAttribute('opacity', pulse * 0.4);
+    document.getElementById('robotEye').setAttribute('opacity', 0.5 + pulse * 0.5);
+    document.getElementById('robotEyeGlow').setAttribute('opacity', pulse * 0.6);
+    // 机箱灯
+    var rackLights = document.getElementById('rackLights').querySelectorAll('circle');
+    for (var i = 0; i < rackLights.length; i++) {
+      rackLights[i].setAttribute('opacity', 0.3 + 0.7 * Math.abs(Math.sin(t * 0.9 + i * 0.6)));
+    }
+
+    // 2) 镜头：6-20s 缓推聚焦机器人；20-30s 推近机器人面部；30-34s 拉回展示老赞比说话
+    var push1 = easeInOut(clamp((t - 6) / 14, 0, 1));
+    var push2 = clamp((t - 20) / 10, 0, 1);
+    var pull = easeInOut(clamp((t - 30) / 4, 0, 1));
+    var s, ax, ay;
+    if (t < 20) {
+      s = lerp(1, 1.12, push1); ax = 880; ay = 540;
+    } else if (t < 30) {
+      s = lerp(1.12, 1.45, push2); ax = lerp(880, 760, push2); ay = lerp(540, 512, push2);
+    } else {
+      s = lerp(1.45, 1.0, pull); ax = lerp(760, 960, pull); ay = lerp(512, 540, pull);
+    }
+    world.setAttribute('transform', 'translate(' + (ax * (1 - s)) + ',' + (ay * (1 - s)) + ') scale(' + s + ')');
+
+    // 3) 台词时（30-38s）老态克隆赞比抬手
+    var raise = clamp((t - 30) / 4, 0, 1);
+    var raiseE = easeInOut(raise);
+    var cloneOldG = document.getElementById('cloneOld');
+    cloneOldG.setAttribute('transform', 'translate(360, 660) scale(1.6) rotate(' + lerp(0, -8, raiseE) + ')');
+
+    // 4) 字幕
+    var subText = document.getElementById('subText');
+    var subBg = document.getElementById('subBg');
+    var cur = null;
+    for (var s = 0; s < SUBTITLES.length; s++) {
+      if (t >= SUBTITLES[s].t) cur = SUBTITLES[s];
+    }
+    if (cur && cur.text !== subText.getAttribute('data-cur')) {
+      subText.textContent = cur.text;
+      subText.setAttribute('data-cur', cur.text);
+    }
+    var show = cur ? 1 : 0;
+    subText.setAttribute('opacity', show);
+    subBg.setAttribute('opacity', show * 0.66);
+
+    // 5) 渐暗
+    var fo = clamp((t - (SCENE_DURATION - 1.5)) / 1.5, 0, 1);
+    document.getElementById('fadeOut').setAttribute('opacity', fo);
+  };
+
+  setTime(0);
+</script>
+</body>
+</html>
