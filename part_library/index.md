@@ -1,89 +1,75 @@
 # 像素素材库索引（part_library）
 
-> 目标：覆盖所有职业/性别/年龄/身份/科幻/奇幻/生物，供未来拼接调用。
-> 索引格式：`路径 | 类别 | 尺寸 | 调色板 | 来源许可`
+> 目标：全覆盖所有职业/性别/年龄/身份/科幻/奇幻/生物，为「文生像素图客户端」打基础。
+> 三端：本机 D:\AAAAI\动画视频尝试\赞比的遗产\part_library / 服务器 srv:/www/git/zanbi-legacy-pixel.git / GitHub liaojiazhashu/zanbi-legacy-pixel
 
-## 一、目录结构
+## 一、LPC 分层配件（part_library/lpc_parts/，下载中 23062/39009）
 
-```
-lpc_layers/            LPC 分层素材（体型/发型/服装/眼睛，64×64 分层 PNG）
-kenney/                已下载的 Kenney/OpenGameArt 完整素材包
-part_library/          【素材库】拆解后的部位素材 + 完整角色 + 调色板
-  ├── fantasy/         奇幻（dark_elves 暗精灵 / long_ears 精灵兽人耳 / starhat 法师帽）
-  ├── animals/         生物（马5色 / 天马 / horse-1.1.zip）
-  ├── scifi/           科幻（太空瓦片 / 能源水晶 / 科幻敌人）
-  ├── farming/         农业职业（daneeklu：角色/魔法/瓦片/UI）
-  ├── wulax/           奇幻武器（盾/长剑/细剑/长矛/弓/骷髅/战斗假人）
-  ├── palettes/        调色板（skin 11 肤色 / hair 9 发色 .gpl）
-  └── remapped/        肤色变体（10 种：绿皮/灰皮/深浅肤色）
-```
+LPC（Liberated Pixel Cup）官方分层系统：每材质独立 6 色（1描边+5明暗），按 base→legs→torso→head→hair→eyes 叠加。
 
-## 二、类别覆盖矩阵（✅已有 / ⬜待下载 / 🔶部分）
+| 类别 | 目录 | 数量/内容 |
+|------|------|-----------|
+| 帽子 | hat/ | 15415 文件：pirate 7851 / magic 2811 / formal 1950 / holiday 1137 / cloth 870 / helmet 480 / accessory 189 / headband 127 |
+| 身体 | body/ | 6 体型（male/muscular/female/pregnant/teen/child）× 尾巴变体 |
+| 发型 | hair/ | 65+ 发型（已单独下载 lpc_layers/hair/） |
+| 其余 | arms/backpack/beards/cape/dress/eyes/facial/feet/head/legs/neck/quiver/shadow/shield/shoulders/tools/torso/weapon | 下载中 |
 
-| 类别 | 状态 | 已有素材 | 缺口 |
-|------|------|---------|------|
-| 职业-战士系 | ✅ | Town Guards 6 职业 + wulax 武器 5 种 | 无 |
-| 职业-法师 | ✅ | starhat 法师帽 + daneeklu 5 魔法 | 法杖/长袍 |
-| 职业-农民 | ✅ | daneeklu 农业包（作物/栅栏/犁地） | 农民角色体 |
-| 职业-平民 | ⬜ | 无 | 商人/医生/工匠/厨师 |
-| 性别-男 | ✅ | LPC male/muscular + 卫兵 | 无 |
-| 性别-女 | 🔶 | LPC female + Cartoon Female + 暗精灵女 | 女性职业少 |
-| 年龄-儿童 | 🔶 | LPC child | 儿童职业/服装少 |
-| 年龄-老年 | 🔶 | LPC elderly 眼 + balding | 老年专用素材少 |
-| 身份-贵族 | ⬜ | 无 | 国王/贵族/僧侣 |
-| 科幻-机械 | 🔶 | scifi_characters + 太空瓦片 + 科幻敌人 14 | 宇航员/机器人角色 |
-| 奇幻-种族 | ✅ | 暗精灵 8 + 精灵耳 12（含兽人耳）+ 骷髅 | 矮人/亡灵完整体 |
-| 奇幻-肤色 | ✅ | 绿皮/灰皮/深浅 10 变体 | 无 |
-| 生物-动物 | ✅ | cute-animals 33 + 马 5 色 + 天马 | 无 |
-| 生物-怪物 | 🔶 | spiky monster + 科幻敌人 14 | 龙/神话生物 |
+## 二、肤色/发色变体
 
-## 三、已有素材清单（详细）
+| 文件 | 内容 |
+|------|------|
+| remapped/skin_*_male_idle.png | 10 肤色变体：green/lime（兽人绿皮）、gray（亡灵灰皮）、coffee/copper/sienna（深肤色）、gold/dove/comet/ivory（浅肤色） |
+| palettes/skin/*.gpl | 20 调色板（肤色10+发色9+眼睛3+金属6+布料25） |
 
-### LPC（lpc_layers/，CC0/CC-BY，Universal-LPC-Spritesheet-Character-Generator）
-- body/：6 体型（male/muscular/female/pregnant/teen/child）× idle+walk
-- hair/：65 发型（balding/swoop/buzzcut/parted/messy/pigtails/natural 等）
-- legs/：formal/pants/skirts_plain 等 6 款
-- torso/：longsleeve/longsleeves/longsleeve_female/aprons 2款/armour 3款/jacket santa
-- eyes/：adult/elderly/child，各 6 表情
+## 三、Town Guards（Kenney 64px 卫兵，CC0）
 
-### Kenney（kenney/，CC0）
-- pixel-platformer（18×18）/ tiny-dungeon（16×16）/ tiny-town（16×16）/ tiny-battle（16×16）/ roguelike-characters（16×16）
-- town_guards（64×64 6 职业卫兵 + 肖像）
-- female（Elfia.png 女精灵 + turn-around.png 卡通女性）
+| 目录 | 内容 |
+|------|------|
+| characters/town_guards/GUARD_0X_idle_down.png | 6 职业完整角色（24-28×55-71 透明 PNG） |
+| characters/town_guards/portraits/*.png | 14 头像（archer 露脸/spearman/captain/heavy_guard 头盔/sword_shield/standard_bearer） |
 
-### 奇幻（part_library/fantasy/）
-- dark_elves/：暗精灵完整角色 8 PNG（Nila122，CC-BY/OGA-BY）
-- long_ears/：精灵/兽人耳部件 12 PNG（含 orc/rorc 兽人耳）
-- LPC_starhat.zip：法师星月帽（Michael Whitlock）
+## 四、奇幻种族
 
-### 武器（part_library/wulax/，CC-BY-SA/GPL/OGA-BY）
-- lpc_entry/：盾/长剑/细剑/长矛/弓/骷髅/战斗假人（多动画帧）
-- expansion_pack/：盾/剑/骷髅弓/箭袋/战斗假人死亡
+| 目录 | 内容 | 许可 |
+|------|------|------|
+| fantasy/dark_elves/ | 暗精灵 8 PNG（Nila122） | CC-BY |
+| fantasy/long_ears/ | 精灵耳/兽人耳 12 部件 | CC-BY |
+| fantasy/dwarves/ | 矮人 6 变体（普通/老年/守护者/英雄/领袖）×3 尺寸 | CC-BY/OGA-BY |
+| fantasy/minotaur/ | 牛头人/牧神 6 PNG | CC-BY-SA/GPL |
+| fantasy/skeleton/ | 骷髅（wulax） | CC-BY |
 
-### 科幻（part_library/scifi/）
-- scifi_space_rpg_tiles_lpcized.png：LPC 太空瓦片（Baŝto，CC-BY-SA/GPL）
-- items.png：能源水晶道具
-- ScifiCritters4.png：14 个 32×32 科幻敌人 robot/alien（Redshrike，CC-BY/OGA-BY）
+## 五、职业素材
 
-### 生物（part_library/animals/）
-- horse_{brown,black,gray,golden,white}.png：5 色马（bluecarrot16，CC-BY/GPL）
-- pegasus.png：天马（AntumDeluge，翅膀 lemmling CC0）
-- horse-1.1.zip：马完整包（AntumDeluge，64×64&64×85）
+| 目录 | 内容 |
+|------|------|
+| wulax/ | 中世纪奇幻包：盾/剑/矛/弓/骷髅战士 |
+| farming/daneeklu | 农业包：character/magic 5/tilesets 12/ui |
+| magic/starhat | 法师帽 |
+| Skorpio_SciFi/ | 特工/装甲/机器人 Cutiebots 5/Mechs/武器 |
 
-### 农业（part_library/farming/daneeklu/，CC-BY-SA/GPL）
-- character/：grab_sheet + sword_sheet（抓取/剑动画）
-- magic/：firelion/iceshield/snakebite/torrentacle/turtleshell 5 魔法
-- tilesets/：farming_fishing/fence/plants/plowed_soil/reed/sand/wheat 等 12 瓦片
-- ui/：scrollsandblocks（卷轴+木块）
+## 六、生物/怪物/坐骑
 
-### 调色板（part_library/palettes/，basxto，CC0）
-- skin/：11 肤色（ivory/gold/sienna/copper/coffee/comet/dove/gray/lime/green 绿皮兽人/gray 灰皮亡灵）
-- hair/：9 发色（brunet/blond/raven/redhead/whiteblond/white/pink/blue/green）
+| 目录 | 内容 |
+|------|------|
+| animals/ | 动物 33 + 马 5 色 + 天马 pegasus |
+| monsters/ | 哥布林/魔像/蜘蛛 11sheet/狼 7/小恶魔/蛙人 3/南瓜怪/甲虫 |
+| fantasy/dragon/ | 龙 4 色双尾背龙 |
+| kenney/monster/ | 尖刺怪物（Bevouliin） |
 
-### 肤色变体（part_library/remapped/）
-- 10 种肤色 remap body（绿皮/灰皮/深浅肤色，供拼接奇幻种族）
+## 七、科幻
 
-### 其他
-- kenney/monster/：spiky monster（金色尖刺怪物）
-- cute-animals/：33 动物（2-18 色极简）
-- scifi_characters.png：机械角色（14 色，蓝黑描边+发光青）
+| 目录 | 内容 |
+|------|------|
+| scifi/ | 太空瓦片 + items + 科幻敌人 14 critter |
+| Skorpio_SciFi/ | 完整科幻角色包 |
+
+## 八、待补缺口
+
+- 平民职业（商人/医生/僧侣）—— LPC hat 目录含王冠/僧侣帽/商人帽
+- 身份（国王/贵族）—— LPC hat 王冠
+- 更多科幻角色（宇航员）
+- 龙/神话生物更多变体
+
+## 九、学习笔记（lpc_analysis/，20+ 份）
+
+调色板系统/人物架构/6体型/6风格/职业差异化/动画帧间/女性角色/怪物设计/动物/Tiny16/表情/武器道具/特效/ichiwatashi基准/露脸头像/PonyTown/奇幻调色板……
