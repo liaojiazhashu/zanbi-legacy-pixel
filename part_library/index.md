@@ -3,15 +3,23 @@
 > 目标：全覆盖所有职业/性别/年龄/身份/科幻/奇幻/生物，为「文生像素图客户端」打基础。
 > 三端：本机 D:\AAAAI\动画视频尝试\赞比的遗产\part_library / 服务器 srv:/www/git/zanbi-legacy-pixel.git / GitHub liaojiazhashu/zanbi-legacy-pixel
 
-## 一、LPC 分层配件（part_library/lpc_parts/，下载中 21000/39009）
+## 一、LPC 分层配件（part_library/lpc_parts/，✅ 已完成 54424 PNG 65.7MB）
 
 LPC（Liberated Pixel Cup）官方分层系统：每材质独立 6 色（1描边+5明暗），按 base→legs→torso→head→hair→eyes 叠加。23 顶层目录：arms/backpack/beards/body/cape/dress/eyes/facial/feet/hair/hat/head/legs/neck/quiver/shadow/shield/shoulders/tools/torso/weapon。
 
 | 类别 | 数量/内容 |
 |------|-----------|
+| 面部 facial/ | 18090 文件（表情/特征，最多） |
 | 帽子 hat/ | 15415 文件：pirate 7851 / magic 2811 / formal 1950 / holiday 1137 / cloth 870 / helmet 480 / accessory 189 / headband 127 |
-| 身体 body/ | 6 体型（male/muscular/female/pregnant/teen/child）× 尾巴变体 |
-| 其余 | arms/backpack/beards/cape/dress/eyes/facial/feet/head/legs/neck/quiver/shadow/shield/shoulders/tools/torso/weapon（下载中） |
+| 身体 body/ | 14223 文件（6 体型 × 尾巴变体） |
+| 眼睛 eyes/ | 2875 文件（成人/儿童/老年 + 表情） |
+| 裙装 dress/ | 1997 文件 |
+| 背包 backpack/ | 948 文件 |
+| 脚 feet/ | 496 文件（鞋子） |
+| 胡须 beards/ | 196 文件 |
+| 手臂 arms/ | 146 文件 |
+| 披风 cape/ | 38 文件 |
+| 头发 hair/ | 位于 lpc_layers/hair/（65 发型） |
 
 ## 二、肤色/发色变体
 
@@ -91,16 +99,16 @@ LPC（Liberated Pixel Cup）官方分层系统：每材质独立 6 色（1描边
 
 调色板系统/人物架构/6体型/6风格/职业差异化/动画帧间/女性角色/怪物设计/动物/Tiny16/表情/武器道具/特效/ichiwatashi基准/露脸头像/PonyTown/奇幻调色板/表情/科幻敌人……
 
-## 十二、素材库统计（2026-11-23 盘点）
+## 十二、素材库统计（2026-11-23 最终盘点）
 
 | 目录 | 文件数 | 大小 | 内容 |
 |------|--------|------|------|
-| lpc_parts | 37814 | 53.4 MB | LPC 分层配件（下载中，目标 39009） |
+| lpc_parts | 54424 | 65.7 MB | LPC 分层配件（✅ 全部下载完成） |
 | icons | 497 | 2.9 MB | 496 RPG 图标 |
 | scifi | 93 | 2.3 MB | 科幻（Skorpio/瓦片/敌人） |
 | fantasy | 65 | 2.1 MB | 奇幻种族（精灵/矮人/牛头人/龙） |
 | monsters | 21 | 2.1 MB | 怪物（哥布林/蜘蛛/狼/小恶魔） |
-| environment | 28 | 1.3 MB | 场景（城镇瓦片/太空/科幻森林） |
+| environment | 220+ | 9.5 MB | 场景（城镇瓦片/太空/科幻森林 193 PNG） |
 | farming | 26 | 1.1 MB | 农业包 |
 | creatures | 5 | 1.0 MB | 生物 |
 | ui | 3 | 0.7 MB | UI（科幻+金色） |
@@ -108,4 +116,4 @@ LPC（Liberated Pixel Cup）官方分层系统：每材质独立 6 色（1描边
 | characters | 46 | 0.2 MB | 卫兵/肖像/精灵女 |
 | effects | 68 | 0.1 MB | 特效（23法术+火冰雷） |
 | 其余 | 63 | 0.0 MB | 调色板/肤色变体/部位/字体 |
-| **总计** | **38751** | **67.6 MB** | 11 大类全覆盖 |
+| **总计** | **55533** | **105.0 MB** | 11 大类全覆盖，三端 commit 6cd65b5a 一致 |
